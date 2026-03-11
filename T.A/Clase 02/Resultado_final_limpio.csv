@@ -1,0 +1,15 @@
+ID_Venta,Fecha,Cliente,Depto,Estado,Monto_USD
+1027,2024-01-27,Cliente_26,Smartphones,Completado,234779.0
+1029,2024-01-29,Cliente_28,Smartphones,Pendiente,1039436.0
+1036,2024-02-05,Cliente_35,Smartphones,Completado,704811.0
+1041,2024-02-10,Cliente_40,Smartphones,Completado,134654.0
+1047,2024-02-16,Cliente_46,Smartphones,Completado,323538.0
+1058,2024-02-27,Cliente_57,Smartphones,Pendiente,1338205.0
+1061,2024-03-01,Cliente_60,Smartphones,Completado,118148.0
+1067,2024-03-07,Cliente_66,Smartphones,Pendiente,797614.4222222222
+1068,2024-03-08,Cliente_67,Smartphones,Completado,797614.4222222222
+1080,2024-03-20,Cliente_79,Smartphones,Completado,252283.0
+1094,2024-04-03,Cliente_93,Smartphones,Cancelado,73247.0
+1096,2024-04-05,Cliente_95,Smartphones,Completado,657086.0
+1097,2024-04-06,Cliente_96,Smartphones,Completado,583556.0
+1099,2024-04-08,Cliente_98,Smartphones,Cancelado,1372905.0

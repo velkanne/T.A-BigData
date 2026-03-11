@@ -1,0 +1,9 @@
+Ticket,Fecha_Hora,Garzon,Monto_CLP,Depto
+A1,09-03 12:00,Wilson,35000.0,Terraza
+A2,09-03 12:15,Ana,-5000.0,Salon
+A1,09-03 12:00,Wilson,35000.0,Terraza
+A4,09-03 13:00,WILSON,,TERRAZA
+A5,09-03 13:10,ana,12000.0,salon
+A6,09-03 13:20,Pedro,0.0,Salon
+A7,09-03 14:00,,45000.0,Terraza
+A5,09-03 13:10,ana,12000.0,salon

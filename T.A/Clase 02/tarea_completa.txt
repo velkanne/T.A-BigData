@@ -1,0 +1,107 @@
+
+====================================================================
+         CLASE 02 - ANALISIS Y LIMPIEZA DE DATOS
+====================================================================
+
+--------------------------------------------------------------------
+  ACTIVIDAD 1: TERMINOLOGIA BASICA DE ANALISIS DE DATOS
+--------------------------------------------------------------------
+
+1. Outlier
+Valor atipico que se desvia significativamente del resto del dataset. Puede distorsionar promedios y modelos si no se trata.
+
+2. Imputacion de datos
+Tecnica para reemplazar valores faltantes (NaN) con estimaciones como la media, mediana, moda u otro metodo estadistico.
+
+3. Deduplicacion
+Proceso de identificar y eliminar registros duplicados en un dataset para evitar sesgo y redundancia.
+
+4. Inconsistencia
+Datos que representan lo mismo pero con formato diferente (ej. "completado" vs "Completado"), impidiendo agrupaciones correctas.
+
+5. ETL (Extract, Transform, Load)
+Pipeline que extrae datos de fuentes, los transforma/limpia y los carga en un destino final.
+
+6. Ruido
+Datos irrelevantes o erroneos que no aportan informacion util y afectan la calidad del analisis.
+
+7. Dataset
+Conjunto estructurado de datos organizado en filas (registros) y columnas (variables/atributos).
+
+8. np.random.seed()
+Fija la semilla del generador aleatorio de NumPy para garantizar reproducibilidad en los resultados.
+
+9. drop_duplicates()
+Metodo de Pandas que elimina filas duplicadas de un DataFrame, conservando la primera ocurrencia por defecto.
+
+10. Preprocesamiento
+Conjunto de pasos aplicados a los datos crudos antes del analisis: limpieza, transformacion, reduccion.
+
+11. Normalizacion / Agregacion / Discretizacion
+- Normalizacion: Escalar valores numericos a un rango comun (ej. 0-1) para comparar variables con distintas magnitudes.
+- Agregacion: Combinar multiples valores en uno solo mediante funciones resumen (suma, promedio, conteo).
+- Discretizacion: Convertir variables continuas en categorias o intervalos (ej. edades a rangos "18-25", "26-35").
+
+12. Codificacion
+Transformar variables categoricas en valores numericos para que sean procesables por algoritmos (ej. One-Hot Encoding).
+
+--------------------------------------------------------------------
+  ACTIVIDAD 2: IDENTIFICACION DE DATOS ANTES DE LIMPIAR
+--------------------------------------------------------------------
+
+Dataset: datos_tecnologia_100.csv
+
+=== REPORTE DE HALLAZGOS ===
+
+Total de registros iniciales: 106
+Duplicados exactos: 5 (filas 102 a 106 copian ID 1003, 1034, 1068, 1097, 1051)
+Valores nulos (NaN) en Monto_CLP: 10 (IDs: 1008, 1014, 1030, 1033, 1048, 1051, 1067, 1068, 1076, 1086)
+Valores nulos (NaN) en Depto: 8 (IDs: 1007, 1017, 1020, 1021, 1022, 1038, 1054, 1059)
+Inconsistencias en Estado: 5 registros con "completado" en minuscula inicial en lugar de "Completado" (IDs 1006, 1018, 1044, 1074, 1087)
+
+=== CODIGO PYTHON REESCRITO ===
+
+import pandas as pd
+import numpy as np
+
+# Cargar CSV original
+df = pd.read_csv('datos_tecnologia_100.csv')
+
+# 1. Total registros
+total_registros = len(df)
+print(f"Total registros iniciales: {total_registros}")
+
+# 2. Duplicados exactos
+duplicados = df.duplicated().sum()
+print(f"Duplicados exactos: {duplicados}")
+
+# 3. Valores nulos
+nulos_monto = df['Monto_CLP'].isna().sum()
+nulos_depto = df['Depto'].isna().sum()
+print(f"Valores nulos en Monto_CLP: {nulos_monto}")
+print(f"Valores nulos en Depto: {nulos_depto}")
+
+# 4. Inconsistencias
+inconsistentes = df[df['Estado'] == 'completado']
+print(f"Inconsistencias 'completado' vs 'Completado': {len(inconsistentes)}")
+
+--------------------------------------------------------------------
+  RESPUESTAS A PREGUNTAS EN BASE AL CODIGO
+--------------------------------------------------------------------
+
+1. Que pilar aplicamos al usar drop_duplicates?
+Limpieza de Datos (Data Cleaning). Remueve redundancias para evitar sesgos estadisticos y falsos volumenes (conteo doble de ventas).
+
+2. En que se diferencia la Reduccion de la Transformacion?
+La Transformacion altera el formato, estructura o escala (ej. texto a mayusculas, CLP a USD). La Reduccion disminuye el volumen general (ej. filtrar rangos de fechas, agrupar datos diarios a mensuales, eliminar columnas irrelevantes) para optimizar el calculo, manteniendo la significancia estadistica.
+
+3. Que habria pasado con el promedio total si en lugar de usar la media hubieramos rellenado los nulos con cero?
+El promedio total habria disminuido artificialmente. El denominador (total de registros) se mantiene constante, pero el numerador (suma de precios) es menor al incluir ceros en lugar de descarte o imputar medias del dataset.
+
+4. Por que es necesario hacer la Reduccion (filtros) al final y no al principio?
+Para no sesgar las medidas de imputacion del dataset a tratar. Una media general extraida una vez filtrado cierto Departamento o Estado, difiere de la media del negocio sin filtrar. Primero se normaliza todo el cuerpo de datos de entrada y se imputa, luego se reduce acorde al analisis de segmentacion.
+
+5. Si la gerencia te pide el total de ventas en dolares, que pilares de preprocesamiento utilizaste para llegar a ese dato?
+- Limpieza (Data Cleaning): Eliminar ventas duplicadas y solventar o descartar los nulos en precios para crear el vector numerico confiable.
+- Transformacion (Data Transformation): Crear la columna divisa USD resultado de la multiplicacion (CLP) x (tipo_cambio).
+- Agregacion (Data Reduction/Aggregation): Operacion suma (.sum()) sobre la columna divisa que condensa un vector 'n' en un escalar.
