@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard · Monitoreo Lechería Paillaco</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:       #0d1117;
+      --surface:  #161b22;
+      --surface2: #1e2630;
+      --border:   #30363d;
+      --accent:   #58a6ff;
+      --green:    #3fb950;
+      --yellow:   #d29922;
+      --red:      #f85149;
+      --purple:   #bc8cff;
+      --teal:     #39d3bb;
+      --text:     #e6edf3;
+      --muted:    #8b949e;
+      --radius:   14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+    /* ── DROP ZONE ── */
+    #drop-screen {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; gap: 1.4rem; padding: 2rem;
+    }
+    #drop-screen h1 {
+      font-size: 1.9rem; font-weight: 700;
+      background: linear-gradient(90deg, var(--accent), var(--teal));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    #drop-screen p { color: var(--muted); font-size: .9rem; }
+    #drop-zone {
+      width: min(480px, 90vw);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    #drop-zone:hover, #drop-zone.over {
+      border-color: var(--accent);
+      background: #58a6ff0d;
+    }
+    #drop-zone svg { margin-bottom: 1rem; opacity: .6; }
+    #drop-zone p { color: var(--muted); font-size: .88rem; }
+    #drop-zone strong { color: var(--accent); font-weight: 600; }
+    #file-input { display: none; }
+    #browse-btn {
+      margin-top: 1.2rem;
+      display: inline-block;
+      background: var(--accent);
+      color: #0d1117;
+      font-weight: 600;
+      font-size: .85rem;
+      padding: .55rem 1.4rem;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      transition: opacity .2s;
+    }
+    #browse-btn:hover { opacity: .85; }
+    #error-msg { color: var(--red); font-size: .85rem; display: none; }
+
+    /* ── DASHBOARD ── */
+    #dashboard { display: none; }
+
+    header {
+      background: linear-gradient(135deg,#0d1117,#161b22 60%,#1c2333);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 3rem 1.6rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    header h1 {
+      font-size: 1.7rem; font-weight: 700;
+      background: linear-gradient(90deg,var(--accent),var(--teal));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    header p { color: var(--muted); margin-top: .3rem; font-size: .85rem; }
+    #reset-btn {
+      background: var(--surface2); border: 1px solid var(--border); color: var(--muted);
+      font-size: .8rem; padding: .45rem 1rem; border-radius: 8px; cursor: pointer; transition: color .2s, border-color .2s;
+    }
+    #reset-btn:hover { color: var(--text); border-color: var(--accent); }
+
+    .kpi-strip { display: flex; gap: 1rem; padding: 1.4rem 3rem; flex-wrap: wrap; }
+    .kpi {
+      flex: 1 1 130px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.1rem 1.4rem;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .kpi:hover { transform: translateY(-3px); box-shadow: 0 8px 24px #0006; }
+    .kpi .val { font-size: 1.8rem; font-weight: 700; line-height: 1; }
+    .kpi .lbl { font-size: .72rem; color: var(--muted); margin-top: .3rem; text-transform: uppercase; letter-spacing: .05em; }
+    .kpi.blue .val   { color: var(--accent); }
+    .kpi.green .val  { color: var(--green); }
+    .kpi.teal .val   { color: var(--teal); }
+    .kpi.purple .val { color: var(--purple); }
+    .kpi.yellow .val { color: var(--yellow); }
+    .kpi.red .val    { color: var(--red); }
+
+    .section-title {
+      font-size: 1rem; font-weight: 600; color: var(--text);
+      padding: .5rem 3rem .9rem; display: flex; align-items: center; gap: .6rem;
+    }
+    .section-title::before {
+      content: ''; display: block; width: 4px; height: 1.1rem;
+      background: linear-gradient(180deg,var(--accent),var(--teal)); border-radius: 2px;
+    }
+
+    .grid { display: grid; gap: 1.1rem; padding: 0 3rem 1.2rem; }
+    .col2 { grid-template-columns: 1fr 1fr; }
+    .col3 { grid-template-columns: 1fr 1fr 1fr; }
+    .col1 { grid-template-columns: 1fr; }
+    .span2 { grid-column: span 2; }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.3rem 1.5rem;
+    }
+    .card h2 { font-size: .78rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .9rem; }
+    .chart-wrap { position: relative; height: 250px; }
+    .chart-wrap.tall { height: 310px; }
+
+    /* Conclusiones */
+    .conclusions { margin: .6rem 3rem 3rem; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem 2.2rem; }
+    .conclusions h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 1.2rem; background: linear-gradient(90deg,var(--accent),var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .cgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .cb { background: var(--surface); border-left: 3px solid var(--accent); border-radius: 8px; padding: .9rem 1.1rem; }
+    .cb.warn   { border-color: var(--yellow); }
+    .cb.danger { border-color: var(--red); }
+    .cb.ok     { border-color: var(--green); }
+    .cb.info   { border-color: var(--purple); }
+    .cb h3 { font-size: .75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: .4rem; }
+    .cb p  { font-size: .84rem; color: var(--text); line-height: 1.55; }
+    .cb strong { color: var(--accent); }
+    .cb.warn strong { color: var(--yellow); }
+    .cb.danger strong { color: var(--red); }
+    .cb.ok strong   { color: var(--green); }
+    .cb.info strong { color: var(--purple); }
+
+    @media(max-width:900px){
+      .col2,.col3 { grid-template-columns:1fr; }
+      .span2 { grid-column: span 1; }
+      .kpi-strip,.grid,.section-title { padding-left:1.2rem; padding-right:1.2rem; }
+      header { padding:1.4rem 1.2rem 1.2rem; }
+      .conclusions { margin:0 1.2rem 2rem; }
+      .cgrid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── PANTALLA DE CARGA ── -->
+<div id="drop-screen">
+  <h1>Monitoreo Lechería Paillaco</h1>
+  <p>Importa el CSV preprocesado para generar el dashboard automáticamente</p>
+  <div id="drop-zone">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="1.5">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="17 8 12 3 7 8"/>
+      <line x1="12" y1="3" x2="12" y2="15"/>
+    </svg>
+    <p>Arrastra tu <strong>.csv</strong> aquí</p>
+    <p style="margin-top:.4rem;font-size:.8rem">o</p>
+    <button id="browse-btn" onclick="document.getElementById('file-input').click()">Seleccionar archivo</button>
+    <input type="file" id="file-input" accept=".csv" />
+  </div>
+  <p id="error-msg"></p>
+  <p style="font-size:.75rem;color:#30363d">Compatible con: <code>monitoreo_lecheria_paillaco_LIMPIO.csv</code> y formatos similares</p>
+</div>
+
+<!-- ── DASHBOARD ── -->
+<div id="dashboard">
+  <header>
+    <div>
+      <h1 id="dash-title">Dashboard Lechería</h1>
+      <p id="dash-sub"></p>
+    </div>
+    <button id="reset-btn" onclick="resetDashboard()">↩ Cambiar archivo</button>
+  </header>
+
+  <div class="kpi-strip">
+    <div class="kpi blue"><div class="val" id="kpi-registros">—</div><div class="lbl">Registros</div></div>
+    <div class="kpi green"><div class="val" id="kpi-vacas">—</div><div class="lbl">Vacas</div></div>
+    <div class="kpi teal"><div class="val" id="kpi-litros">—</div><div class="lbl">Prom. litros/día</div></div>
+    <div class="kpi purple"><div class="val" id="kpi-temp">—</div><div class="lbl">Temp. media (°C)</div></div>
+    <div class="kpi yellow"><div class="val" id="kpi-obs">—</div><div class="lbl">En Observacion</div></div>
+    <div class="kpi red"><div class="val" id="kpi-trat">—</div><div class="lbl">En Tratamiento</div></div>
+  </div>
+
+  <div class="section-title">Distribución y Estado General</div>
+  <div class="grid col2">
+    <div class="card"><h2>Estado de Salud</h2><div class="chart-wrap"><canvas id="cDonut"></canvas></div></div>
+    <div class="card"><h2>Promedio Litros/Leche por Vaca</h2><div class="chart-wrap"><canvas id="cBarLitros"></canvas></div></div>
+  </div>
+
+  <div class="section-title">Producción y Temperatura</div>
+  <div class="grid col2">
+    <div class="card"><h2>Rango Temperatura Corporal por Vaca</h2><div class="chart-wrap"><canvas id="cBarTemp"></canvas></div></div>
+    <div class="card"><h2>Estado de Salud por Vaca (apilado)</h2><div class="chart-wrap"><canvas id="cStacked"></canvas></div></div>
+  </div>
+
+  <div class="section-title">Evolución Temporal</div>
+  <div class="grid col1">
+    <div class="card"><h2>Promedio Litros por Fecha</h2><div class="chart-wrap tall"><canvas id="cLine"></canvas></div></div>
+  </div>
+
+  <div class="grid col3" style="padding-top:0">
+    <div class="card span2"><h2>Dispersión: Litros vs Temperatura (por Estado)</h2><div class="chart-wrap tall"><canvas id="cScatter"></canvas></div></div>
+    <div class="card"><h2>Registros por Vaca</h2><div class="chart-wrap tall"><canvas id="cCount"></canvas></div></div>
+  </div>
+
+  <div class="section-title">Conclusiones del Análisis</div>
+  <div class="conclusions">
+    <h2>Hallazgos del preprocesamiento y análisis descriptivo</h2>
+    <div class="cgrid" id="conclusiones-grid">
+      <!-- se inyectan dinámicamente -->
+    </div>
+  </div>
+</div>
+
+<script>
+// ──────────────────────────────────────────────
+// CSV PARSER
+// ──────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  const headers = lines[0].split(',').map(h => h.trim());
+  return lines.slice(1).map(line => {
+    const vals = line.split(',');
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = (vals[i] || '').trim());
+    return obj;
+  });
+}
+
+function detectCols(headers) {
+  const find = (keywords) => headers.find(h => keywords.some(k => h.toLowerCase().includes(k))) || null;
+  return {
+    id:     find(['id','vaca','animal','cow']),
+    fecha:  find(['fecha','date','dia','day']),
+    litros: find(['litro','leche','milk','produccion','prod']),
+    temp:   find(['temp','corporal','temperatura']),
+    estado: find(['estado','estado_salud','health','salud','status'])
+  };
+}
+
+// ──────────────────────────────────────────────
+// DRAG & DROP
+// ──────────────────────────────────────────────
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('over');
+  const file = e.dataTransfer.files[0];
+  if (file) loadFile(file);
+});
+document.getElementById('file-input').addEventListener('change', e => {
+  if (e.target.files[0]) loadFile(e.target.files[0]);
+});
+
+function showError(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+function loadFile(file) {
+  if (!file.name.endsWith('.csv')) { showError('El archivo debe ser .csv'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const rows = parseCSV(e.target.result);
+      if (!rows.length) { showError('El CSV está vacío.'); return; }
+      buildDashboard(rows, file.name);
+    } catch(err) { showError('Error al leer el CSV: ' + err.message); }
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+// ──────────────────────────────────────────────
+// HELPERS
+// ──────────────────────────────────────────────
+const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0;
+const round1 = n => Math.round(n * 10) / 10;
+const COL = {
+  "Saludable":      "#3fb950",
+  "En Observacion": "#d29922",
+  "Tratamiento":    "#f85149"
+};
+function colorFor(estado) {
+  const e = (estado||'').trim();
+  if (/salud/i.test(e) && !/obs/i.test(e)) return COL["Saludable"];
+  if (/obs/i.test(e)) return COL["En Observacion"];
+  if (/trat/i.test(e)) return COL["Tratamiento"];
+  return "#8b949e";
+}
+function canonEstado(e) {
+  if (/salud/i.test(e) && !/obs/i.test(e)) return "Saludable";
+  if (/obs/i.test(e)) return "En Observacion";
+  if (/trat/i.test(e)) return "Tratamiento";
+  return e;
+}
+
+let charts = {};
+function destroyAll() { Object.values(charts).forEach(c => c && c.destroy()); charts = {}; }
+
+const DARK = {
+  ticks: { color:'#8b949e' },
+  grid:  { color:'#21262d' }
+};
+function baseOpts(extra={}) {
+  return {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend:{ labels:{ color:'#e6edf3', font:{size:11} } } },
+    ...extra
+  };
+}
+
+// ──────────────────────────────────────────────
+// BUILD
+// ──────────────────────────────────────────────
+function buildDashboard(rows, filename) {
+  destroyAll();
+
+  const headers = Object.keys(rows[0]);
+  const cols = detectCols(headers);
+
+  // Extraer arrays
+  const getNum = (row, col) => col ? parseFloat(row[col]) : NaN;
+  const getStr = (row, col) => col ? (row[col]||'').trim() : '';
+
+  const data = rows.map(r => ({
+    id:     getStr(r, cols.id),
+    fecha:  getStr(r, cols.fecha),
+    litros: getNum(r, cols.litros),
+    temp:   getNum(r, cols.temp),
+    estado: canonEstado(getStr(r, cols.estado))
+  })).filter(r => r.id);  // descartar filas sin ID
+
+  const n = data.length;
+  const vacas = [...new Set(data.map(r=>r.id))].sort();
+  const estados = ["Saludable","En Observacion","Tratamiento"];
+
+  const litrosValidos = data.map(r=>r.litros).filter(v=>!isNaN(v)&&v>=0);
+  const tempValidos   = data.map(r=>r.temp).filter(v=>!isNaN(v));
+
+  // KPIs
+  document.getElementById('dash-title').textContent = filename.replace('.csv','').replace(/_/g,' ');
+  document.getElementById('dash-sub').textContent = `${n} registros · ${vacas.length} vacas · ${filename}`;
+  document.getElementById('kpi-registros').textContent = n;
+  document.getElementById('kpi-vacas').textContent = vacas.length;
+  document.getElementById('kpi-litros').textContent = litrosValidos.length ? round1(avg(litrosValidos))+' L' : '—';
+  document.getElementById('kpi-temp').textContent   = tempValidos.length   ? round1(avg(tempValidos))+'°C'   : '—';
+  document.getElementById('kpi-obs').textContent  = data.filter(r=>r.estado==='En Observacion').length;
+  document.getElementById('kpi-trat').textContent = data.filter(r=>r.estado==='Tratamiento').length;
+
+  // ── 1. DONUT estado
+  const cuentas = estados.map(e => data.filter(r=>r.estado===e).length);
+  charts.donut = new Chart(document.getElementById('cDonut'), {
+    type:'doughnut',
+    data:{
+      labels: estados,
+      datasets:[{ data:cuentas, backgroundColor: estados.map(e=>COL[e]||'#8b949e'),
+        borderColor:'#161b22', borderWidth:3, hoverOffset:10 }]
+    },
+    options: baseOpts({ cutout:'62%', plugins:{ legend:{ position:'right', labels:{color:'#e6edf3',font:{size:12},padding:14} },
+      tooltip:{ callbacks:{ label: ctx => ` ${ctx.label}: ${ctx.parsed} (${(ctx.parsed/n*100).toFixed(1)}%)` } } } })
+  });
+
+  // ── 2. BAR litros por vaca
+  const byVaca = v => data.filter(r=>r.id===v);
+  const avgLitros = vacas.map(v => round1(avg(byVaca(v).map(r=>r.litros).filter(x=>!isNaN(x)&&x>=0))));
+  charts.barLitros = new Chart(document.getElementById('cBarLitros'), {
+    type:'bar',
+    data:{ labels:vacas, datasets:[{
+      label:'Promedio L/día', data:avgLitros,
+      backgroundColor: avgLitros.map(v=>v<20?'#f8514988':v>32?'#3fb95088':'#58a6ff88'),
+      borderColor:     avgLitros.map(v=>v<20?'#f85149':v>32?'#3fb950':'#58a6ff'),
+      borderWidth:1.5, borderRadius:5
+    }]},
+    options: baseOpts({ plugins:{legend:{display:false}}, scales:{ x:{...DARK}, y:{...DARK, title:{display:true,text:'Litros',color:'#8b949e'}} } })
+  });
+
+  // ── 3. BAR temp rango
+  const tempMin = vacas.map(v => { const t=byVaca(v).map(r=>r.temp).filter(x=>!isNaN(x)); return t.length?round1(Math.min(...t)):0; });
+  const tempAvg = vacas.map(v => { const t=byVaca(v).map(r=>r.temp).filter(x=>!isNaN(x)); return t.length?round1(avg(t)):0; });
+  const tempMax = vacas.map(v => { const t=byVaca(v).map(r=>r.temp).filter(x=>!isNaN(x)); return t.length?round1(Math.max(...t)):0; });
+  charts.barTemp = new Chart(document.getElementById('cBarTemp'), {
+    type:'bar',
+    data:{ labels:vacas, datasets:[
+      { label:'Mín',  data:tempMin, backgroundColor:'#58a6ff55', borderColor:'#58a6ff', borderWidth:1.5, stack:'t', borderRadius:3 },
+      { label:'Avg',  data:tempAvg.map((a,i)=>round1(a-tempMin[i])), backgroundColor:'#bc8cff88', borderColor:'#bc8cff', borderWidth:1.5, stack:'t' },
+      { label:'Máx',  data:tempMax.map((a,i)=>round1(a-tempAvg[i])), backgroundColor:'#f8514988', borderColor:'#f85149', borderWidth:1.5, stack:'t', borderRadius:3 }
+    ]},
+    options: baseOpts({ scales:{ x:{...DARK, stacked:true}, y:{...DARK, stacked:true, title:{display:true,text:'°C (base=mín)',color:'#8b949e'}} } })
+  });
+
+  // ── 4. STACKED estado por vaca
+  charts.stacked = new Chart(document.getElementById('cStacked'), {
+    type:'bar',
+    data:{ labels:vacas, datasets: estados.map(e=>({
+      label:e,
+      data: vacas.map(v=>byVaca(v).filter(r=>r.estado===e).length),
+      backgroundColor:(COL[e]||'#8b949e')+'cc',
+      borderColor:COL[e]||'#8b949e',
+      borderWidth:1, borderRadius:3, stack:'a'
+    }))},
+    options: baseOpts({ scales:{ x:{...DARK,stacked:true}, y:{...DARK,stacked:true, title:{display:true,text:'Registros',color:'#8b949e'}} } })
+  });
+
+  // ── 5. LINE litros por fecha
+  const fechas = [...new Set(data.map(r=>r.fecha))].filter(Boolean).sort();
+  const avgPorFecha = fechas.map(f => {
+    const vals = data.filter(r=>r.fecha===f).map(r=>r.litros).filter(x=>!isNaN(x)&&x>=0);
+    return vals.length ? round1(avg(vals)) : null;
+  });
+  const fechaLabels = fechas.map(f => {
+    // intenta simplificar a DD/MM o MM-DD
+    const m = f.match(/(\d{4})-(\d{2})-(\d{2})/);
+    return m ? `${m[3]}/${m[2]}` : f;
+  });
+  charts.line = new Chart(document.getElementById('cLine'), {
+    type:'line',
+    data:{ labels:fechaLabels, datasets:[{
+      label:'Promedio litros/día', data:avgPorFecha,
+      borderColor:'#58a6ff', backgroundColor:'rgba(88,166,255,.08)',
+      tension:.4, pointRadius:4, pointBackgroundColor:'#58a6ff', fill:true, borderWidth:2, spanGaps:true
+    }]},
+    options: baseOpts({ scales:{ x:{...DARK, ticks:{color:'#8b949e',maxRotation:45}}, y:{...DARK, title:{display:true,text:'Litros promedio',color:'#8b949e'}} } })
+  });
+
+  // ── 6. SCATTER litros vs temp
+  charts.scatter = new Chart(document.getElementById('cScatter'), {
+    type:'scatter',
+    data:{ datasets: estados.map(e=>({
+      label:e,
+      data: data.filter(r=>r.estado===e&&!isNaN(r.litros)&&!isNaN(r.temp)&&r.litros>=0).map(r=>({x:r.temp,y:r.litros})),
+      backgroundColor:(COL[e]||'#8b949e')+'99',
+      borderColor:COL[e]||'#8b949e',
+      pointRadius:5, pointHoverRadius:7, borderWidth:1
+    }))},
+    options: baseOpts({ scales:{
+      x:{...DARK, title:{display:true,text:'Temp Corporal (°C)',color:'#8b949e'}},
+      y:{...DARK, title:{display:true,text:'Litros de Leche',color:'#8b949e'}}
+    }})
+  });
+
+  // ── 7. BAR HORIZONTAL conteo por vaca
+  const counts = vacas.map(v => byVaca(v).length);
+  const idx = [...counts.keys()].sort((a,b)=>counts[b]-counts[a]);
+  charts.count = new Chart(document.getElementById('cCount'), {
+    type:'bar',
+    data:{ labels:idx.map(i=>vacas[i]), datasets:[{
+      label:'Registros', data:idx.map(i=>counts[i]),
+      backgroundColor:'#bc8cff88', borderColor:'#bc8cff', borderWidth:1.5, borderRadius:4
+    }]},
+    options: baseOpts({ indexAxis:'y', plugins:{legend:{display:false}}, scales:{ x:{...DARK}, y:{...DARK, ticks:{color:'#8b949e',font:{size:10}}} } })
+  });
+
+  // ── CONCLUSIONES DINÁMICAS
+  const pctObs  = (data.filter(r=>r.estado==='En Observacion').length/n*100).toFixed(1);
+  const pctTrat = (data.filter(r=>r.estado==='Tratamiento').length/n*100).toFixed(1);
+  const pctSalu = (data.filter(r=>r.estado==='Saludable').length/n*100).toFixed(1);
+  const tempSD  = tempValidos.length>1 ? round1(Math.sqrt(tempValidos.map(v=>(v-avg(tempValidos))**2).reduce((a,b)=>a+b,0)/tempValidos.length)) : '—';
+  const litSD   = litrosValidos.length>1 ? round1(Math.sqrt(litrosValidos.map(v=>(v-avg(litrosValidos))**2).reduce((a,b)=>a+b,0)/litrosValidos.length)) : '—';
+  const topVaca = vacas[idx[0]];
+  const topN    = counts[idx[0]];
+  const minL    = round1(Math.min(...litrosValidos));
+  const maxL    = round1(Math.max(...litrosValidos));
+
+  document.getElementById('conclusiones-grid').innerHTML = `
+    <div class="cb ok">
+      <h3>Sanidad del Hato</h3>
+      <p><strong>${pctSalu}%</strong> de los registros corresponden a animales saludables, 
+         <strong>${pctObs}%</strong> en observación y <strong>${pctTrat}%</strong> en tratamiento activo. 
+         La relación observación/tratamiento indica un monitoreo preventivo activo.</p>
+    </div>
+    <div class="cb warn">
+      <h3>Variabilidad Productiva</h3>
+      <p>Producción media de <strong>${round1(avg(litrosValidos))} L/día</strong> con desviación estándar 
+         de <strong>${litSD} L</strong>. Rango: ${minL} – ${maxL} L. 
+         La alta dispersión sugiere diferencias significativas entre individuos o estados de salud.</p>
+    </div>
+    <div class="cb ok">
+      <h3>Estabilidad Térmica</h3>
+      <p>Temperatura corporal media de <strong>${round1(avg(tempValidos))}°C</strong> con desviación 
+         de <strong>${tempSD}°C</strong>. Valores dentro del rango fisiológico bovino esperado 
+         (37.5°C – 39.5°C), lo que valida la calidad del preprocesamiento.</p>
+    </div>
+    <div class="cb info">
+      <h3>Animal más Monitoreado</h3>
+      <p><strong>${topVaca}</strong> concentra <strong>${topN} registros</strong> (${(topN/n*100).toFixed(1)}% 
+         del total). Una concentración elevada en un individuo puede indicar seguimiento por problema 
+         de salud recurrente o mayor producción de interés.</p>
+    </div>
+    <div class="cb warn">
+      <h3>Distribución Temporal</h3>
+      <p>El dataset cubre <strong>${fechas.length} fechas distintas</strong>. 
+         La presencia de múltiples registros por fecha y vaca en distintas fechas sugiere 
+         un esquema de monitoreo diario irregular, con días de mayor actividad de campo.</p>
+    </div>
+    <div class="cb danger">
+      <h3>Recomendación Operativa</h3>
+      <p>Con un <strong>${pctTrat}%</strong> en tratamiento y <strong>${pctObs}%</strong> en observación, 
+         más del ${(parseFloat(pctTrat)+parseFloat(pctObs)).toFixed(1)}% del hato registrado requiere 
+         atención. Se recomienda cruzar con fechas para detectar brotes o epocas de mayor morbilidad.</p>
+    </div>
+  `;
+
+  // Mostrar dashboard
+  document.getElementById('drop-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+}
+
+function resetDashboard() {
+  destroyAll();
+  document.getElementById('file-input').value = '';
+  document.getElementById('error-msg').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('drop-screen').style.display = 'flex';
+}
+</script>
+</body>
+</html>
