@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Preprocesamiento — Finanzas CFT 250</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b0b14;
+      color: #d0d0f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    header {
+      text-align: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #2a2a4a;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #a0a0ff;
+      letter-spacing: 0.5px;
+    }
+
+    header p {
+      font-size: 0.82rem;
+      color: #666688;
+      margin-top: 4px;
+    }
+
+    .card {
+      background: #13131f;
+      border: 1px solid #2a2a4a;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 30px rgba(120, 100, 230, 0.12);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid #1e1e30;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge-a { background: #2d1f6e; color: #a58aff; border: 1px solid #5a3fcf; }
+    .badge-b { background: #1a3027; color: #3ecf8e; border: 1px solid #27ae72; }
+
+    .pillar-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 12px;
+      background: #1e1e30;
+      color: #8888bb;
+      border: 1px solid #2e2e50;
+    }
+
+    .card-header h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #c0c0e8;
+      flex: 1;
+    }
+
+    .card-body {
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .explanation {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: #b0b0cc;
+    }
+
+    .highlight {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 1px 8px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .pill-red   { background: #3a1515; color: #ff7070; border: 1px solid #8b2020; }
+    .pill-green { background: #0d2e1e; color: #3ecf8e; border: 1px solid #1e6845; }
+    .pill-blue  { background: #151a3a; color: #7b9fff; border: 1px solid #2a3a80; }
+
+    .code-block {
+      background: #0d0d1a;
+      border: 1px solid #1e1e38;
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      position: relative;
+    }
+
+    .code-block .comment { color: #555577; }
+    .code-block .keyword { color: #a58aff; font-weight: 600; }
+    .code-block .string  { color: #ffd580; }
+    .code-block .func    { color: #3ecf8e; }
+    .code-block .var     { color: #7bc8ff; }
+    .code-block .num     { color: #ff7070; }
+
+    .result-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .result-box {
+      flex: 1;
+      min-width: 140px;
+      background: #0d0d1a;
+      border: 1px solid #1e1e38;
+      border-radius: 10px;
+      padding: 12px 16px;
+      text-align: center;
+    }
+
+    .result-box .label {
+      font-size: 0.72rem;
+      color: #666688;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .result-box .value {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .value-red   { color: #ff7070; }
+    .value-green { color: #3ecf8e; }
+    .value-blue  { color: #7b9fff; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <h1>Preprocesamiento de Datos — Finanzas CFT 250</h1>
+    <p>Dataset: <code>finanzas_cft_250.csv</code> &nbsp;|&nbsp; 261 registros iniciales</p>
+  </header>
+
+  <!-- PREGUNTA A -->
+  <div class="card">
+    <div class="card-header">
+      <span class="badge badge-a">Pregunta A</span>
+      <h2>Pagos negativos en el sistema</h2>
+      <span class="pillar-tag">Pilar: Exactitud</span>
+    </div>
+    <div class="card-body">
+
+      <p class="explanation">
+        El pilar de <span class="highlight">Exactitud</span> exige que cada valor almacenado
+        corresponda al valor real que representa en el dominio del problema.
+        <code>Monto_CLP</code> modela desembolsos institucionales — por definición
+        del negocio ninguna transacción puede ser negativa.
+        Un valor de <span class="pill pill-red">−50.000</span> no es un dato faltante:
+        es un dato <span class="highlight">incorrecto respecto a la realidad</span>,
+        lo que viola directamente esta dimensión.
+      </p>
+
+      <div class="code-block">
+<span class="comment"># Exactitud — eliminación de montos inválidos</span>
+<br><span class="var">df</span> = <span class="var">df</span>[<span class="var">df</span>[<span class="string">'Monto_CLP'</span>] &gt;= <span class="num">0</span>].<span class="func">copy</span>()
+      </div>
+
+      <div class="result-row">
+        <div class="result-box">
+          <div class="label">Registros eliminados</div>
+          <div class="value value-red">4</div>
+        </div>
+        <div class="result-box">
+          <div class="label">Monto problemático</div>
+          <div class="value value-red">−$50.000</div>
+        </div>
+        <div class="result-box">
+          <div class="label">Categorías afectadas</div>
+          <div class="value value-blue">3</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PREGUNTA B -->
+  <div class="card">
+    <div class="card-header">
+      <span class="badge badge-b">Pregunta B</span>
+      <h2>Gastos de hace 10 años fuera del ejercicio</h2>
+      <span class="pillar-tag">Pilar: Reducción</span>
+    </div>
+    <div class="card-body">
+
+      <p class="explanation">
+        El pilar de <span class="highlight">Reducción</span> indica eliminar
+        toda fila o columna que no aporte información relevante al objetivo analítico.
+        El ejercicio contable cubre <span class="pill pill-blue">2023</span>.
+        Registros con fecha <span class="pill pill-red">2014-05-20</span> y
+        <span class="pill pill-red">2024-03-15</span> son ajenos al período —
+        incluirlos distorsiona estadísticas, promedios y series temporales
+        sin ningún beneficio para el análisis.
+      </p>
+
+      <div class="code-block">
+<span class="comment"># Reducción — filtro por rango del ejercicio contable 2023</span>
+<br><span class="var">df</span>[<span class="string">'Fecha'</span>] = <span class="var">pd</span>.<span class="func">to_datetime</span>(<span class="var">df</span>[<span class="string">'Fecha'</span>])
+<br>
+<br><span class="var">df</span> = <span class="var">df</span>[
+<br>&nbsp;&nbsp;&nbsp;&nbsp;(<span class="var">df</span>[<span class="string">'Fecha'</span>] &gt;= <span class="string">'2023-01-01'</span>) &amp;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;(<span class="var">df</span>[<span class="string">'Fecha'</span>] &lt;= <span class="string">'2023-12-31'</span>)
+<br>].<span class="func">copy</span>()
+      </div>
+
+      <div class="result-row">
+        <div class="result-box">
+          <div class="label">Registros eliminados</div>
+          <div class="value value-red">9</div>
+        </div>
+        <div class="result-box">
+          <div class="label">Fechas anómalas</div>
+          <div class="value value-red">2014 / 2024</div>
+        </div>
+        <div class="result-box">
+          <div class="label">Registros finales</div>
+          <div class="value value-green">228</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,261 @@
+ID_Transaccion,Fecha,Detalle,Monto_CLP,Sede,Estado
+5000,2023-01-01,Beca Alimentación,1518165.0,Valdivia,Pagado
+5001,2023-01-02,Mantención Sede,2250000.0,Panguipulli,Pendiente
+5002,2023-01-03,Pago Arancel,142948.0,Valdivia,Pagado
+5003,2023-01-04,Beca Alimentación,1642880.0,La Unión,Pagado
+5004,2023-01-05,Beca Alimentación,417690.0,La Unión,Pendiente
+5005,2023-01-06,Mantención Sede,514046.0,La Unión,Pendiente
+5006,2024-03-15,Pago Arancel,36959.0,Valdivia,Pagado
+5007,2023-01-08,Pago Arancel,1813792.0,La Unión,Pendiente
+5008,2023-01-09,Beca Alimentación,1969109.0,La Unión,Pagado
+5009,2023-01-10,Compra Insumos,1853756.0,Valdivia,Pagado
+5010,2023-01-11,Beca Alimentación,243576.0,Panguipulli,Pagado
+5011,2023-01-12,Beca Alimentación,2277990.0,Valdivia,Pendiente
+5012,2023-01-13,Beca Alimentación,,La Unión,Pendiente
+5013,2023-01-14,Beca Alimentación,76087.0,La Unión,Pendiente
+5014,2023-01-15,Mantención Sede,1028343.0,Valdivia,Pendiente
+5015,2023-01-16,Pago Arancel,2097263.0,Panguipulli,Pendiente
+5016,2024-03-15,Mantención Sede,2230603.0,La Unión,Pagado
+5017,2023-01-18,Mantención Sede,1511176.0,La Unión,Pagado
+5018,2023-01-19,Mantención Sede,1901013.0,La Unión,Pagado
+5019,2023-01-20,Beca Alimentación,454792.0,Valdivia,Pagado
+5020,2023-01-21,Compra Insumos,54353.0,La Unión,Pendiente
+5021,2023-01-22,Pago Arancel,2305227.0,Panguipulli,Pagado
+5022,2023-01-23,Compra Insumos,80318.0,La Unión,Pendiente
+5023,2024-03-15,Mantención Sede,780313.0,La Unión,Pagado
+5024,2023-01-25,Mantención Sede,1546266.0,Panguipulli,Pendiente
+5025,2023-01-26,Compra Insumos,431880.0,La Unión,Pendiente
+5026,2023-01-27,Compra Insumos,785746.0,Valdivia,Pagado
+5027,2023-01-28,Compra Insumos,828168.0,Valdivia,Pagado
+5028,2014-05-20,Mantención Sede,240281.0,Valdivia,Pagado
+5029,2023-01-30,Mantención Sede,1415804.0,Panguipulli,Pagado
+5030,2023-01-31,Pago Arancel,1495415.0,La Unión,Pendiente
+5031,2024-03-15,Pago Arancel,284536.0,Valdivia,Pagado
+5032,2023-02-02,Mantención Sede,2429976.0,Panguipulli,Pagado
+5033,2023-02-03,Compra Insumos,1321002.0,La Unión,Pendiente
+5034,2023-02-04,Compra Insumos,192789.0,VLDV,Pagado
+5035,2023-02-05,Pago Arancel,1576729.0,Valdivia,Pagado
+5036,2023-02-06,Mantención Sede,852291.0,Valdivia,Pagado
+5037,2023-02-07,Pago Arancel,2237809.0,Valdivia,Pagado
+5038,2023-02-08,Pago Arancel,1298743.0,Panguipulli,Pagado
+5039,2023-02-09,Beca Alimentación,696669.0,Panguipulli,Pendiente
+5040,2023-02-10,Beca Alimentación,1134043.0,Valdivia,Pagado
+5041,2023-02-11,Beca Alimentación,2221903.0,Panguipulli,Pagado
+5042,2023-02-12,Compra Insumos,-50000.0,Valdivia,Pagado
+5043,2023-02-13,Mantención Sede,1756093.0,Valdivia,Pagado
+5044,2023-02-14,Mantención Sede,2480604.0,La Unión,Pagado
+5045,2023-02-15,Mantención Sede,2033163.0,Panguipulli,Pendiente
+5046,2023-02-16,Mantención Sede,121081.0,Valdivia,Pagado
+5047,2023-02-17,Beca Alimentación,1676909.0,VLDV,Pendiente
+5048,2023-02-18,Compra Insumos,125078.0,Panguipulli,Pendiente
+5049,2023-02-19,Compra Insumos,1930631.0,La Unión,Pagado
+5050,2023-02-20,Beca Alimentación,-50000.0,La Unión,Pagado
+5051,2023-02-21,Compra Insumos,1481976.0,Valdivia,Pagado
+5052,2023-02-22,Beca Alimentación,1419104.0,Panguipulli,Pagado
+5053,2023-02-23,Mantención Sede,2023187.0,La Unión,Pendiente
+5054,2023-02-24,Beca Alimentación,1674066.0,VLDV,Pagado
+5055,2023-02-25,Mantención Sede,2163815.0,Panguipulli,Pagado
+5056,2023-02-26,Mantención Sede,326955.0,Valdivia,Pagado
+5057,2023-02-27,Pago Arancel,2224699.0,La Unión,Pagado
+5058,2023-02-28,Beca Alimentación,925681.0,VLDV,Pagado
+5059,2023-03-01,Pago Arancel,1622618.0,La Unión,Pagado
+5060,2023-03-02,Beca Alimentación,157483.0,La Unión,Pendiente
+5061,2023-03-03,Beca Alimentación,2048350.0,La Unión,Pendiente
+5062,2023-03-04,Pago Arancel,2326987.0,La Unión,Pagado
+5063,2023-03-05,Pago Arancel,416896.0,La Unión,Pagado
+5064,2023-03-06,Beca Alimentación,2197048.0,Panguipulli,Pagado
+5065,2023-03-07,Compra Insumos,492095.0,Valdivia,Pendiente
+5066,2023-03-08,Mantención Sede,86295.0,Panguipulli,Pagado
+5067,2023-03-09,Pago Arancel,758974.0,La Unión,Pendiente
+5068,2023-03-10,Mantención Sede,902121.0,Valdivia,Pagado
+5069,2023-03-11,Compra Insumos,1071731.0,La Unión,Pagado
+5070,2023-03-12,Compra Insumos,840816.0,Valdivia,Pagado
+5071,2023-03-13,Compra Insumos,389705.0,Panguipulli,Pagado
+5072,2023-03-14,Pago Arancel,1871926.0,Valdivia,Pendiente
+5073,2023-03-15,Compra Insumos,1673845.0,Valdivia,Pendiente
+5074,2023-03-16,Pago Arancel,2041793.0,Valdivia,Pagado
+5075,2023-03-17,Compra Insumos,569594.0,Valdivia,Pagado
+5076,2023-03-18,Mantención Sede,,Valdivia,Pendiente
+5077,2023-03-19,Mantención Sede,660263.0,La Unión,Pendiente
+5078,2023-03-20,Beca Alimentación,2219664.0,Valdivia,Pendiente
+5079,2023-03-21,Mantención Sede,,Valdivia,Pendiente
+5080,2023-03-22,Beca Alimentación,1534163.0,Panguipulli,Pagado
+5081,2023-03-23,Mantención Sede,388616.0,Valdivia,Pendiente
+5082,2023-03-24,Pago Arancel,,Panguipulli,Pagado
+5083,2023-03-25,Mantención Sede,1429447.0,La Unión,Pendiente
+5084,2023-03-26,Beca Alimentación,2487189.0,VLDV,Pendiente
+5085,2023-03-27,Beca Alimentación,132796.0,Panguipulli,Pendiente
+5086,2023-03-28,Compra Insumos,1256082.0,VLDV,Pendiente
+5087,2023-03-29,Pago Arancel,1005198.0,La Unión,Pendiente
+5088,2023-03-30,Mantención Sede,713376.0,Valdivia,Pagado
+5089,2014-05-20,Compra Insumos,2381696.0,Valdivia,Pagado
+5090,2023-04-01,Mantención Sede,2492154.0,Panguipulli,Pendiente
+5091,2023-04-02,Mantención Sede,713002.0,Valdivia,Pendiente
+5092,2023-04-03,Compra Insumos,1603015.0,Panguipulli,Pagado
+5093,2014-05-20,Compra Insumos,1594159.0,Valdivia,Pendiente
+5094,2023-04-05,Compra Insumos,922317.0,Panguipulli,Pendiente
+5095,2023-04-06,Compra Insumos,336184.0,Valdivia,Pagado
+5096,2023-04-07,Compra Insumos,1862191.0,La Unión,Pendiente
+5097,2023-04-08,Mantención Sede,1486091.0,VLDV,Pendiente
+5098,2023-04-09,Compra Insumos,683234.0,Valdivia,Pagado
+5099,2023-04-10,Pago Arancel,393480.0,La Unión,Pagado
+5100,2023-04-11,Beca Alimentación,2144863.0,Valdivia,Pagado
+5101,2023-04-12,Compra Insumos,806971.0,La Unión,Pendiente
+5102,2023-04-13,Compra Insumos,516157.0,Valdivia,Pagado
+5103,2023-04-14,Mantención Sede,199423.0,Panguipulli,Pagado
+5104,2023-04-15,Compra Insumos,1767290.0,VLDV,Pagado
+5105,2023-04-16,Compra Insumos,927495.0,Valdivia,Pagado
+5106,2023-04-17,Compra Insumos,1800954.0,Valdivia,Pagado
+5107,2023-04-18,Mantención Sede,148272.0,Valdivia,Pagado
+5108,2023-04-19,Compra Insumos,782836.0,Panguipulli,Pendiente
+5109,2023-04-20,Beca Alimentación,1141081.0,Valdivia,Pendiente
+5110,2023-04-21,Mantención Sede,2115021.0,Panguipulli,Pagado
+5111,2023-04-22,Beca Alimentación,796474.0,La Unión,Pagado
+5112,2023-04-23,Mantención Sede,1375828.0,Panguipulli,Pagado
+5113,2023-04-24,Compra Insumos,633467.0,Panguipulli,Pendiente
+5114,2023-04-25,Beca Alimentación,1153848.0,La Unión,Pendiente
+5115,2023-04-26,Mantención Sede,2150619.0,Panguipulli,Pendiente
+5116,2023-04-27,Pago Arancel,892844.0,Valdivia,Pendiente
+5117,2023-04-28,Compra Insumos,495047.0,Valdivia,Pendiente
+5118,2023-04-29,Mantención Sede,,Panguipulli,Pendiente
+5119,2023-04-30,Pago Arancel,1122447.0,Valdivia,Pendiente
+5120,2023-05-01,Mantención Sede,954903.0,Panguipulli,Pendiente
+5121,2023-05-02,Pago Arancel,143391.0,Valdivia,Pendiente
+5122,2023-05-03,Compra Insumos,1032026.0,Valdivia,Pagado
+5123,2023-05-04,Beca Alimentación,1674280.0,Panguipulli,Pagado
+5124,2023-05-05,Pago Arancel,1920279.0,Valdivia,Pagado
+5125,2023-05-06,Mantención Sede,2368839.0,Panguipulli,Pagado
+5126,2023-05-07,Compra Insumos,122450.0,Valdivia,Pendiente
+5127,2023-05-08,Pago Arancel,2284042.0,Valdivia,Pendiente
+5128,2023-05-09,Mantención Sede,2394126.0,La Unión,Pagado
+5129,2023-05-10,Mantención Sede,1998509.0,La Unión,Pendiente
+5130,2023-05-11,Mantención Sede,131381.0,Panguipulli,Pagado
+5131,2024-03-15,Pago Arancel,1536701.0,La Unión,Pendiente
+5132,2023-05-13,Pago Arancel,1635197.0,VLDV,Pagado
+5133,2023-05-14,Pago Arancel,,La Unión,Pendiente
+5134,2023-05-15,Beca Alimentación,1793226.0,Valdivia,Pendiente
+5135,2023-05-16,Pago Arancel,1926221.0,Panguipulli,Pagado
+5136,2023-05-17,Pago Arancel,1214386.0,Panguipulli,Pendiente
+5137,2023-05-18,Pago Arancel,2029484.0,Valdivia,Pagado
+5138,2023-05-19,Beca Alimentación,2472184.0,Panguipulli,Pagado
+5139,2023-05-20,Pago Arancel,,Panguipulli,Pagado
+5140,2023-05-21,Mantención Sede,744903.0,La Unión,Pagado
+5141,2023-05-22,Pago Arancel,2157866.0,Panguipulli,Pendiente
+5142,2023-05-23,Mantención Sede,1530536.0,Valdivia,Pendiente
+5143,2023-05-24,Mantención Sede,1775427.0,La Unión,Pendiente
+5144,2023-05-25,Mantención Sede,139123.0,La Unión,Pagado
+5145,2023-05-26,Beca Alimentación,951093.0,Valdivia,Pendiente
+5146,2023-05-27,Beca Alimentación,1146565.0,Valdivia,Pagado
+5147,2023-05-28,Beca Alimentación,193274.0,La Unión,Pendiente
+5148,2023-05-29,Pago Arancel,1946760.0,Panguipulli,Pendiente
+5149,2023-05-30,Mantención Sede,146373.0,La Unión,Pendiente
+5150,2023-05-31,Beca Alimentación,130294.0,Valdivia,Pagado
+5151,2023-06-01,Beca Alimentación,2035320.0,La Unión,Pendiente
+5152,2023-06-02,Pago Arancel,663307.0,Valdivia,Pendiente
+5153,2023-06-03,Beca Alimentación,2177878.0,La Unión,Pagado
+5154,2024-03-15,Pago Arancel,156564.0,Panguipulli,Pendiente
+5155,2023-06-05,Compra Insumos,-50000.0,La Unión,Pagado
+5156,2023-06-06,Beca Alimentación,2082359.0,La Unión,Pendiente
+5157,2023-06-07,Compra Insumos,2380398.0,Valdivia,Pagado
+5158,2023-06-08,Pago Arancel,,Valdivia,Pagado
+5159,2023-06-09,Mantención Sede,2366231.0,Valdivia,Pendiente
+5160,2023-06-10,Beca Alimentación,704944.0,La Unión,Pagado
+5161,2023-06-11,Pago Arancel,-50000.0,Panguipulli,Pagado
+5162,2023-06-12,Mantención Sede,2004173.0,Valdivia,Pagado
+5163,2023-06-13,Mantención Sede,1429466.0,Valdivia,Pagado
+5164,2023-06-14,Compra Insumos,460101.0,La Unión,Pagado
+5165,2023-06-15,Pago Arancel,2148783.0,Valdivia,Pagado
+5166,2023-06-16,Mantención Sede,1067590.0,Panguipulli,Pendiente
+5167,2023-06-17,Beca Alimentación,1081646.0,Panguipulli,Pagado
+5168,2023-06-18,Beca Alimentación,1885785.0,Valdivia,Pagado
+5169,2023-06-19,Compra Insumos,1120534.0,Valdivia,Pendiente
+5170,2023-06-20,Mantención Sede,1598593.0,La Unión,Pendiente
+5171,2023-06-21,Pago Arancel,1818649.0,Panguipulli,Pendiente
+5172,2023-06-22,Beca Alimentación,,Panguipulli,Pendiente
+5173,2023-06-23,Mantención Sede,2309544.0,Valdivia,Pendiente
+5174,2023-06-24,Mantención Sede,173823.0,La Unión,Pendiente
+5175,2023-06-25,Compra Insumos,1456578.0,Panguipulli,Pendiente
+5176,2023-06-26,Beca Alimentación,513863.0,Panguipulli,Pagado
+5177,2023-06-27,Beca Alimentación,382654.0,La Unión,Pagado
+5178,2023-06-28,Pago Arancel,2347514.0,La Unión,Pendiente
+5179,2024-03-15,Beca Alimentación,1507785.0,Panguipulli,Pagado
+5180,2023-06-30,Pago Arancel,812079.0,Panguipulli,Pagado
+5181,2023-07-01,Beca Alimentación,679076.0,La Unión,Pagado
+5182,2023-07-02,Compra Insumos,2332115.0,Panguipulli,Pendiente
+5183,2023-07-03,Beca Alimentación,,Valdivia,Pendiente
+5184,2023-07-04,Pago Arancel,,Valdivia,Pagado
+5185,2023-07-05,Pago Arancel,1920324.0,VLDV,Pendiente
+5186,2023-07-06,Compra Insumos,2376664.0,La Unión,Pagado
+5187,2023-07-07,Beca Alimentación,1301125.0,La Unión,Pagado
+5188,2023-07-08,Beca Alimentación,1547875.0,Valdivia,Pagado
+5189,2023-07-09,Compra Insumos,463982.0,Panguipulli,Pagado
+5190,2023-07-10,Beca Alimentación,1187622.0,Valdivia,Pendiente
+5191,2024-03-15,Beca Alimentación,1011161.0,Panguipulli,Pendiente
+5192,2023-07-12,Pago Arancel,681326.0,Valdivia,Pendiente
+5193,2023-07-13,Beca Alimentación,664150.0,Panguipulli,Pagado
+5194,2023-07-14,Beca Alimentación,,Valdivia,Pendiente
+5195,2023-07-15,Compra Insumos,1714005.0,La Unión,Pagado
+5196,2023-07-16,Compra Insumos,1769236.0,Valdivia,Pendiente
+5197,2023-07-17,Mantención Sede,299821.0,Panguipulli,Pagado
+5198,2023-07-18,Pago Arancel,,Valdivia,Pagado
+5199,2023-07-19,Beca Alimentación,242897.0,Valdivia,Pagado
+5200,2023-07-20,Beca Alimentación,989165.0,Valdivia,Pendiente
+5201,2023-07-21,Mantención Sede,1094600.0,La Unión,Pendiente
+5202,2014-05-20,Beca Alimentación,1040715.0,Valdivia,Pendiente
+5203,2023-07-23,Pago Arancel,1453533.0,La Unión,Pendiente
+5204,2023-07-24,Mantención Sede,,La Unión,Pagado
+5205,2023-07-25,Pago Arancel,476243.0,Valdivia,Pendiente
+5206,2023-07-26,Mantención Sede,2073852.0,Valdivia,Pendiente
+5207,2023-07-27,Mantención Sede,2000588.0,Valdivia,Pagado
+5208,2023-07-28,Compra Insumos,266451.0,Panguipulli,Pagado
+5209,2023-07-29,Pago Arancel,18051.0,Valdivia,Pagado
+5210,2023-07-30,Beca Alimentación,1767683.0,La Unión,Pendiente
+5211,2023-07-31,Beca Alimentación,1019646.0,Valdivia,Pagado
+5212,2023-08-01,Pago Arancel,,Panguipulli,Pagado
+5213,2023-08-02,Beca Alimentación,986525.0,Valdivia,Pagado
+5214,2024-03-15,Beca Alimentación,204407.0,Panguipulli,Pendiente
+5215,2023-08-04,Pago Arancel,464395.0,Panguipulli,Pagado
+5216,2023-08-05,Mantención Sede,964597.0,Valdivia,Pendiente
+5217,2023-08-06,Pago Arancel,1275386.0,La Unión,Pendiente
+5218,2023-08-07,Mantención Sede,2185675.0,Panguipulli,Pagado
+5219,2023-08-08,Beca Alimentación,1158052.0,Valdivia,Pagado
+5220,2023-08-09,Beca Alimentación,237866.0,Valdivia,Pendiente
+5221,2023-08-10,Beca Alimentación,1150248.0,La Unión,Pagado
+5222,2023-08-11,Compra Insumos,1661711.0,Panguipulli,Pagado
+5223,2023-08-12,Mantención Sede,1408470.0,Panguipulli,Pendiente
+5224,2023-08-13,Compra Insumos,2140403.0,Valdivia,Pendiente
+5225,2023-08-14,Compra Insumos,1438286.0,Valdivia,Pagado
+5226,2023-08-15,Pago Arancel,198062.0,La Unión,Pendiente
+5227,2023-08-16,Compra Insumos,115235.0,La Unión,Pagado
+5228,2023-08-17,Pago Arancel,2490648.0,Panguipulli,Pagado
+5229,2023-08-18,Pago Arancel,1916625.0,Panguipulli,Pagado
+5230,2023-08-19,Compra Insumos,765201.0,Valdivia,Pendiente
+5231,2023-08-20,Mantención Sede,818328.0,Panguipulli,Pagado
+5232,2023-08-21,Mantención Sede,1058233.0,La Unión,Pagado
+5233,2023-08-22,Mantención Sede,2289399.0,La Unión,Pagado
+5234,2023-08-23,Mantención Sede,1726741.0,Valdivia,Pendiente
+5235,2023-08-24,Mantención Sede,544525.0,La Unión,Pendiente
+5236,2023-08-25,Compra Insumos,1083632.0,La Unión,Pendiente
+5237,2023-08-26,Compra Insumos,191615.0,La Unión,Pendiente
+5238,2023-08-27,Beca Alimentación,202628.0,La Unión,Pendiente
+5239,2023-08-28,Mantención Sede,-50000.0,Valdivia,Pagado
+5240,2014-05-20,Compra Insumos,421716.0,Valdivia,Pendiente
+5241,2023-08-30,Beca Alimentación,556252.0,Panguipulli,Pendiente
+5242,2023-08-31,Mantención Sede,1701293.0,La Unión,Pendiente
+5243,2023-09-01,Pago Arancel,2364916.0,Panguipulli,Pagado
+5244,2024-03-15,Beca Alimentación,2179367.0,Valdivia,Pendiente
+5245,2023-09-03,Compra Insumos,1919050.0,Valdivia,Pendiente
+5246,2023-09-04,Pago Arancel,159356.0,Valdivia,Pagado
+5247,2023-09-05,Pago Arancel,218861.0,Valdivia,Pendiente
+5248,2023-09-06,Pago Arancel,370612.0,Valdivia,Pagado
+5249,2023-09-07,Beca Alimentación,24435.0,Valdivia,Pagado
+5196,2023-07-16,Compra Insumos,1769236.0,Valdivia,Pendiente
+5197,2023-07-17,Mantención Sede,299821.0,Panguipulli,Pagado
+5246,2023-09-04,Pago Arancel,159356.0,Valdivia,Pagado
+5140,2023-05-21,Mantención Sede,744903.0,La Unión,Pagado
+5221,2023-08-10,Beca Alimentación,1150248.0,La Unión,Pagado
+5105,2023-04-16,Compra Insumos,927495.0,Valdivia,Pagado
+5134,2023-05-15,Beca Alimentación,1793226.0,Valdivia,Pendiente
+5079,2023-03-21,Mantención Sede,162443.0,Valdivia,Pendiente
+5087,2023-03-29,Pago Arancel,1005198.0,La Unión,Pendiente
+5152,2023-06-02,Pago Arancel,663307.0,Valdivia,Pendiente
