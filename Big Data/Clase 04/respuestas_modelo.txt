@@ -1,0 +1,102 @@
+================================================================
+RESPUESTAS - MODELO RELACIONAL: Lecheria_Paillaco
+================================================================
+
+1. CUAL ES TU PK Y POR QUE EVITA DUPLICADOS
+----------------------------------------------------------------
+
+Cada tabla tiene su propia PK:
+
+  Vaca             → PK: ID_Vaca (VARCHAR)
+  Control_Salud    → PK: ID_Control (INT IDENTITY)
+  Produccion_Leche → PK: ID_Produccion (INT IDENTITY)
+
+Por que evita duplicados:
+
+En el CSV el problema era que no existia ningun campo que
+identificara de forma unica cada fila. El archivo tenia filas
+como estas:
+
+  VACA-138 | 2026-03-26 | 36.2 | 39.0 | En Observacion
+  VACA-138 | 2026-03-26 | 21.1 | 38.5 | En Observacion
+  VACA-138 | 2026-03-26 | 31.7 | 37.8 | En Observacion
+
+Misma vaca, misma fecha → tres filas sin forma de distinguirlas.
+
+En el modelo SQL:
+
+- ID_Vaca en la tabla Vaca es PK, por lo que SQL Server rechaza
+  automaticamente cualquier intento de insertar dos veces el mismo
+  codigo de vaca ('VACA-138' solo puede existir una vez).
+
+- ID_Control e ID_Produccion son IDENTITY: SQL Server genera el
+  valor solo, incremental, sin posibilidad de colision. Esto
+  permite registrar multiples controles o producciones para la
+  misma vaca en la misma fecha sin perder ninguno, pero cada
+  registro queda identificado de forma unica.
+
+La PK actua como restriccion a nivel de motor: el INSERT falla
+antes de escribir el dato si el valor ya existe. Eso es una
+garantia estructural que un CSV no puede ofrecer.
+
+
+2. QUE TIPOS DE DATOS ELEGISTE Y POR QUE
+----------------------------------------------------------------
+
+TABLA Vaca
+  ID_Vaca     VARCHAR(10)  → el codigo tiene formato fijo 'VACA-NNN',
+                             texto de longitud variable corta.
+  Numero_Vaca SMALLINT     → valores entre 100-999, SMALLINT ocupa
+                             2 bytes (suficiente, sin desperdiciar espacio).
+
+TABLA Control_Salud
+  ID_Control  INT IDENTITY → entero autoincremental, sin limite
+                             practico para registros diarios.
+  ID_Vaca     VARCHAR(10)  → igual que PK de Vaca para poder hacer
+                             JOIN sin conversion de tipo.
+  Fecha_Control DATE       → solo fecha (sin hora), refleja el dato
+                             del CSV. Permite filtrar por rango.
+  Temp_Corporal DECIMAL(4,1) → temperatura con 1 decimal (ej: 39.2).
+                               DECIMAL es exacto, FLOAT introduciria
+                               error de punto flotante.
+  Estado_Salud VARCHAR(20) → texto corto. Controlado ademas por
+                             CHECK constraint (ver punto 3).
+
+TABLA Produccion_Leche
+  Litros_Leche DECIMAL(6,2) → permite hasta 9999.99 litros con 2
+                               decimales (el CSV tenia valores como
+                               22.79 y 0.04). DECIMAL exacto para
+                               datos de medicion.
+
+Criterio general: se eligio el tipo mas pequeno que cubre el rango
+real del dato, priorizando DECIMAL sobre FLOAT para valores
+numericos de medicion (exactitud garantizada).
+
+
+3. COMO SOLUCIONA EL MODELO EL PROBLEMA DE MAYUS/MINUS
+----------------------------------------------------------------
+
+El CSV tenia valores de Estado_Salud sin estandarizar. En un CSV
+podrían coexistir: 'saludable', 'Saludable', 'SALUDABLE', etc.
+
+El modelo lo resuelve con un CHECK constraint en Control_Salud:
+
+  CONSTRAINT CK_Estado CHECK (
+      Estado_Salud IN ('Saludable','En Observacion','Tratamiento')
+  )
+
+Esto significa:
+- SQL Server rechaza cualquier valor que no sea exactamente
+  uno de esos tres strings.
+- La forma canonica (con la capitalizacion correcta) queda
+  definida en el esquema, no en los datos.
+- Si alguien intenta insertar 'saludable' o 'SALUDABLE', el
+  motor lanza un error antes de escribir el registro.
+
+Complementariamente, al cargar datos desde el CSV se puede
+aplicar UPPER() o un REPLACE() en el SELECT de INSERT para
+normalizar antes de insertar. El CHECK es la ultima linea de
+defensa que garantiza que ningun valor fuera del catalogo
+llegue a persistir en la base de datos.
+
+================================================================
