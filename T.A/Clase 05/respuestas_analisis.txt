@@ -1,0 +1,15 @@
+1. Consistencia: Fragmentaría el presupuesto real en múltiples subtotales. 
+El rector recibiría métricas subestimadas del ingreso o gasto de la sede, 
+derivando en decisiones presupuestarias o de inversión erróneas.
+
+2. Completitud: En procesos de auditoría estricta, 
+conciliación bancaria o cuadratura de estados financieros, 
+donde introducir datos sintéticos genera descuadres verificables y altera la realidad contable.
+
+3. Validez: Rechazos en sistemas ERP automatizados, 
+fallas en la entrega de comprobantes o notificaciones de cobro, 
+e incumplimiento de políticas de seguridad al enviar datos financieros confidenciales a dominios no controlados.
+
+4. Integridad: Se inflarían artificialmente los indicadores de productividad 
+(sobreestimación drástica del volumen transaccional), 
+proyectando una falsa necesidad de recursos operativos y distorsionando el cálculo del costo real por transacción.
