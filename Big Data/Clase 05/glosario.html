@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glosario T&eacute;cnico y de Big Data</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #050505;
+            --bg-secondary: #0a0a0a;
+            --bg-card: #121212;
+            --bg-card-hover: #161616;
+            --accent-primary: #00f0ff;
+            --accent-secondary: #ff003c;
+            --accent-tertiary: #fcee0a;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --text-muted: #525252;
+            --border-color: #262626;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Abstract ambient background */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(0, 240, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(255, 0, 60, 0.03) 0%, transparent 50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1rem;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-primary);
+            border-radius: 2px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 300px 1fr 1fr;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--border-color);
+            transition: background 0.3s ease;
+        }
+
+        .card:hover {
+            background: var(--bg-card-hover);
+            border-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .card:hover::before {
+            background: var(--accent-primary);
+        }
+
+        .concept-column {
+            display: flex;
+            align-items: center;
+        }
+
+        .code-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            display: inline-block;
+            word-wrap: break-word;
+        }
+
+        .definition-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .box-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .box-label::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .tech-desc .box-label::before {
+            background-color: var(--accent-tertiary);
+        }
+
+        .data-desc .box-label::before {
+            background-color: var(--accent-primary);
+        }
+
+        .definition-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 968px) {
+            .card {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+            .card::before {
+                width: 100%;
+                height: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-bg"></div>
+    <div class="container">
+        <header>
+            <h1>Glosario Estructural</h1>
+            <p class="subtitle">An&aacute;lisis at&oacute;mico de instrucciones y su vector en Big Data</p>
+        </header>
+
+        <div class="glossary-grid">
+            <!-- import sqlite3 -->
+            <div class="card">
+                <div class="concept-column">
+                    <span class="code-title">import sqlite3</span>
+                </div>
+                <div class="definition-box tech-desc">
+                    <span class="box-label">Funci&oacute;n T&eacute;cnica</span>
+                    <p class="definition-text">Importa la librer&iacute;a est&aacute;ndar de Python en el espacio de nombres actual para interactuar con bases de datos relacionales integradas (SQLite) a trav&eacute;s de la especificaci&oacute;n DB-API 2.0.</p>
+                </div>
+                <div class="definition-box data-desc">
+                    <span class="box-label">Relevancia en Big Data</span>
+                    <p class="definition-text">Permite el almacenamiento transaccional local persistente durante las primeras fases t&aacute;cticas de ingesta. Act&uacute;a como cach&eacute; estructural o punto de aterrizaje (landing zone) local antes de migrar conjuntos a cl&uacute;steres distribuidos masivos.</p>
+                </div>
+            </div>
+
+            <!-- sqlite3.connect() -->
+            <div class="card">
+                <div class="concept-column">
+                    <span class="code-title">sqlite3.connect()</span>
+                </div>
+                <div class="definition-box tech-desc">
+                    <span class="box-label">Funci&oacute;n T&eacute;cnica</span>
+                    <p class="definition-text">Establece un enlace bidireccional (socket/stream) con el archivo de la base de datos y retorna un objeto de conexi&oacute;n. Crea autom&aacute;ticamente el archivo base si el URI destino no existe.</p>
+                </div>
+                <div class="definition-box data-desc">
+                    <span class="box-label">Relevancia en Big Data</span>
+                    <p class="definition-text">Abre la tuber&iacute;a de extracci&oacute;n (Extract) en pipelines ETL. Determina el l&iacute;mite y los bloqueos de concurrencia al transferir bloques masivos estructurados hacia o desde el sistema de archivos anal&iacute;tico.</p>
+                </div>
+            </div>
+
+            <!-- cursor.execute() -->
+            <div class="card">
+                <div class="concept-column">
+                    <span class="code-title">cursor.execute()</span>
+                </div>
+                <div class="definition-box tech-desc">
+                    <span class="box-label">Funci&oacute;n T&eacute;cnica</span>
+                    <p class="definition-text">Compila el string SQL provisto en bytecode manejado por el motor subyacente y lo procesa contra el dataset bajo el contexto transaccional mantenido por la conexi&oacute;n.</p>
+                </div>
+                <div class="definition-box data-desc">
+                    <span class="box-label">Relevancia en Big Data</span>
+                    <p class="definition-text">Desencadena el motor de computaci&oacute;n de almacenamiento para filtrados nativos y agrupaciones de petabytes. Delega la operaci&oacute;n reducida al nodo de la base de datos minimizando cuellos de botella de transferencia de red.</p>
+                </div>
+            </div>
+
+            <!-- CHECK -->
+            <div class="card">
+                <div class="concept-column">
+                    <span class="code-title">CHECK</span>
+                </div>
+                <div class="definition-box tech-desc">
+                    <span class="box-label">Funci&oacute;n T&eacute;cnica</span>
+                    <p class="definition-text">Cl&aacute;usula del lenguaje DDL en SQL. Impone una validaci&oacute;n a nivel de esquema binario evaluando forzosamente una expresi&oacute;n l&oacute;gica en cada inserci&oacute;n o modificaci&oacute;n de filas.</p>
+                </div>
+                <div class="definition-box data-desc">
+                    <span class="box-label">Relevancia en Big Data</span>
+                    <p class="definition-text">Capa central de Calidad de Datos (Data Quality) y Veracidad. Filtra la entrop&iacute;a transaccional garantizando que an&oacute;malos t&eacute;cnicos no crucen la l&iacute;nea base de la arquitectura empresarial, impidiendo envenenamiento de modelos estad&iacute;sticos o de machine learning.</p>
+                </div>
+            </div>
+
+            <!-- import json -->
+            <div class="card">
+                <div class="concept-column">
+                    <span class="code-title">import json</span>
+                </div>
+                <div class="definition-box tech-desc">
+                    <span class="box-label">Funci&oacute;n T&eacute;cnica</span>
+                    <p class="definition-text">Habilita la serializaci&oacute;n (y parsing) de estructuras de datos nativas complejas (listas, diccionarios) a cadenas de texto codificadas universalmente bajo el formato JSON.</p>
+                </div>
+                <div class="definition-box data-desc">
+                    <span class="box-label">Relevancia en Big Data</span>
+                    <p class="definition-text">Formato l&iacute;der (junto a binarios como Parquet/Avro) para enfrentar la Variedad de Datos. Estructura el transporte de telemetr&iacute;a, APIs e ingestas de esquemas flexibles t&iacute;picos de bases de datos NoSQL donde los datos fluyen asim&eacute;tricamente.</p>
+                </div>
+            </div>
+
+            <!-- pd.read_sql_query() -->
+            <div class="card">
+                <div class="concept-column">
+                    <span class="code-title">pd.read_sql_query()</span>
+                </div>
+                <div class="definition-box tech-desc">
+                    <span class="box-label">Funci&oacute;n T&eacute;cnica</span>
+                    <p class="definition-text">Extrae el <i>result set</i> de un string de consulta SQL y lo mapea iterativamente a trav&eacute;s de la conexi&oacute;n mapeando tipos alfanum&eacute;ricos a las sub-estructuras subyacentes vectorizadas de NumPy, resultando en un DataFrame de Pandas.</p>
+                </div>
+                <div class="definition-box data-desc">
+                    <span class="box-label">Relevancia en Big Data</span>
+                    <p class="definition-text">Opera como puente intra-procesamiento conectando el cl&uacute;ster r&iacute;gido relacional (SQL) a la plataforma en memoria de Data Science (Python). Facilita los cuellos de integraci&oacute;n de pipelines anal&iacute;ticos.</p>
+                </div>
+            </div>
+
+            <!-- display(df) -->
+            <div class="card">
+                <div class="concept-column">
+                    <span class="code-title">display(df)</span>
+                </div>
+                <div class="definition-box tech-desc">
+                    <span class="box-label">Funci&oacute;n T&eacute;cnica</span>
+                    <p class="definition-text">Funci&oacute;n del n&uacute;cleo de cuadernos interactivos (IPython/Jupyter) que interpreta el objeto provisto e inyecta din&aacute;micamente HTML con estilo CSS en el frontend (salida de la celda), renderizando gr&aacute;ficos o tablas tabulares ordenadas.</p>
+                </div>
+                <div class="definition-box data-desc">
+                    <span class="box-label">Relevancia en Big Data</span>
+                    <p class="definition-text">Fundamental para el perfilamiento interactivo de datos investigativo (EDA - An&aacute;lisis Exploratorio de Datos). Permite percibir heur&iacute;sticamente tendencias, distribuciones macro num&eacute;ricas o nulos r&aacute;pidamente sin alterar las capas de ejecuci&oacute;n.</p>
+                </div>
+            </div>
+
+            <!-- doc.items() -->
+            <div class="card">
+                <div class="concept-column">
+                    <span class="code-title">doc.items()</span>
+                </div>
+                <div class="definition-box tech-desc">
+                    <span class="box-label">Funci&oacute;n T&eacute;cnica</span>
+                    <p class="definition-text">Invoca y genera un objeto de vista de diccionario. Act&uacute;a como un iterador directo optimizado sobre todas las duplas <i>(clave, valor)</i> simult&aacute;neamente dentro de una expresi&oacute;n hash (diccionario/documento NoSQL).</p>
+                </div>
+                <div class="definition-box data-desc">
+                    <span class="box-label">Relevancia en Big Data</span>
+                    <p class="definition-text">Es la navaja destructurante para la ingesta din&aacute;mica. Requerido t&eacute;cnicamente para mapear matrices y aplanar propiedades de esquemas irregulares, unificando la alta dimensionalidad variable de metadatos no estructurados en tensores o columnas inteligibles.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

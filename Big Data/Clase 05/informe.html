@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe - SQL vs NoSQL: Veracidad en Big Data</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2235;
+            --bg-code: #0d1320;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #1e293b;
+            --border-accent: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem 5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        header .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--accent-blue);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.35rem 1rem;
+            border-radius: 999px;
+            margin-bottom: 1.25rem;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.6rem;
+        }
+
+        header p.subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        header .meta {
+            margin-top: 1.2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        header .meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Sections */
+        .section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem 2.2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .section:hover {
+            border-color: var(--border-accent);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .section.integrity::before { background: linear-gradient(90deg, var(--accent-red), var(--accent-amber)); }
+        .section.flexibility::before { background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan)); }
+        .section.architecture::before { background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue)); }
+
+        .section-number {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .integrity .section-number { color: var(--accent-red); }
+        .flexibility .section-number { color: var(--accent-emerald); }
+        .architecture .section-number { color: var(--accent-purple); }
+
+        .section h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        .section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.2rem 1.4rem;
+            margin: 1.2rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block .lang-tag {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.8rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .code-block pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
+        .code-block .kw { color: var(--accent-purple); }
+        .code-block .fn { color: var(--accent-blue); }
+        .code-block .str { color: var(--accent-emerald); }
+        .code-block .num { color: var(--accent-amber); }
+        .code-block .cm { color: var(--text-muted); font-style: italic; }
+        .code-block .err { color: var(--accent-red); }
+
+        /* Output block */
+        .output-block {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 10px;
+            padding: 1rem 1.4rem;
+            margin: 1.2rem 0;
+        }
+
+        .output-block.success {
+            background: rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .output-block .label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .output-block .label.error { color: var(--accent-red); }
+        .output-block .label.ok { color: var(--accent-emerald); }
+
+        .output-block pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: rgba(59, 130, 246, 0.07);
+            border-left: 3px solid var(--accent-blue);
+            border-radius: 0 10px 10px 0;
+            padding: 1rem 1.4rem;
+            margin: 1.2rem 0;
+        }
+
+        .highlight-box p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .highlight-box strong {
+            color: var(--text-primary);
+        }
+
+        /* Comparison table */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin: 1.2rem 0;
+        }
+
+        .comparison-card {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.4rem;
+        }
+
+        .comparison-card h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-card h3 .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .comparison-card h3 .dot.sql { background: var(--accent-blue); }
+        .comparison-card h3 .dot.nosql { background: var(--accent-emerald); }
+
+        .comparison-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comparison-card ul li {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding: 0.3rem 0;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .comparison-card ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        /* JSON display */
+        .json-block {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.2rem 1.4rem;
+            margin: 1.2rem 0;
+        }
+
+        .json-block pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
+        .json-block .key { color: var(--accent-cyan); }
+        .json-block .str { color: var(--accent-emerald); }
+        .json-block .num { color: var(--accent-amber); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        @media (max-width: 640px) {
+            .container { padding: 2rem 1rem; }
+            header h1 { font-size: 1.6rem; }
+            .section { padding: 1.5rem; }
+            .comparison { grid-template-columns: 1fr; }
+            header .meta { flex-direction: column; gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="container">
+
+        <header>
+            <div class="badge">Big Data &mdash; Clase 05</div>
+            <h1>SQL vs NoSQL: Veracidad en Big Data</h1>
+            <p class="subtitle">Informe basado en el notebook <code>dataset.ipynb</code> &mdash; Cerveceria TP</p>
+            <div class="meta">
+                <span>Archivo: cerveceria_tp.db</span>
+                <span>Tabla: PRODUCCION</span>
+                <span>Abril 2026</span>
+            </div>
+        </header>
+
+        <!-- Pregunta 1: Integridad -->
+        <section class="section integrity">
+            <div class="section-number">Pregunta 01</div>
+            <h2>Integridad: Rechazo de temperatura inv&aacute;lida (45 &deg;C)</h2>
+
+            <p>La tabla <code>PRODUCCION</code> fue creada con una restricci&oacute;n <code>CHECK</code> que limita el campo <code>temperatura_fermentacion</code> al rango de 0 a 30 &deg;C:</p>
+
+            <div class="code-block">
+                <span class="lang-tag">SQL</span>
+<pre><span class="kw">CREATE TABLE IF NOT EXISTS</span> PRODUCCION (
+    id_lote     <span class="fn">INTEGER</span> <span class="kw">PRIMARY KEY</span>,
+    estilo      <span class="fn">TEXT</span> <span class="kw">NOT NULL</span>,
+    litros      <span class="fn">INTEGER</span>,
+    temperatura_fermentacion <span class="fn">REAL</span> <span class="kw">CHECK</span>(temperatura_fermentacion <span class="kw">BETWEEN</span> <span class="num">0</span> <span class="kw">AND</span> <span class="num">30</span>)
+)</pre>
+            </div>
+
+            <p>Cuando se intent&oacute; insertar un lote con temperatura de <strong>45.0 &deg;C</strong>, SQLite rechaz&oacute; la operaci&oacute;n al violar la restricci&oacute;n <code>CHECK</code>:</p>
+
+            <div class="code-block">
+                <span class="lang-tag">Python</span>
+<pre>cursor.execute(<span class="str">"INSERT INTO PRODUCCION VALUES (2, 'Stout', 300, 45.0)"</span>)</pre>
+            </div>
+
+            <div class="output-block">
+                <div class="label error">Salida &mdash; Error capturado</div>
+<pre>Bloqueo SQL esperado: CHECK constraint failed:
+temperatura_fermentacion BETWEEN 0 AND 30
+(La restriccion CHECK funciono)</pre>
+            </div>
+
+            <p>El registro <strong>nunca se insert&oacute;</strong>. La base de datos actu&oacute; como guardi&aacute;n: impidi&oacute; que un dato fuera de rango contamine la tabla.</p>
+
+            <div class="highlight-box">
+                <p><strong>Relaci&oacute;n con la Veracidad:</strong> La Veracidad exige que los datos almacenados sean confiables y representen fielmente la realidad. Una temperatura de 45 &deg;C es fisicamente invalida para la fermentaci&oacute;n de cerveza (las levaduras mueren sobre los ~35 &deg;C). La restricci&oacute;n <code>CHECK</code> garantiza que solo ingresen datos veraces al sistema, rechazando autom&aacute;ticamente valores absurdos antes de que corrompan an&aacute;lisis posteriores.</p>
+            </div>
+        </section>
+
+        <!-- Pregunta 2: Flexibilidad -->
+        <section class="section flexibility">
+            <div class="section-number">Pregunta 02</div>
+            <h2>Flexibilidad: Esquema din&aacute;mico en NoSQL</h2>
+
+            <p>No fue necesario modificar ninguna estructura previa. La simulaci&oacute;n NoSQL (diccionarios Python + JSON) permiti&oacute; insertar dos documentos con esquemas completamente distintos sin declarar columnas ni alterar tablas:</p>
+
+            <div class="json-block">
+<pre><span class="cm">// Documento 1 &mdash; campos b&aacute;sicos</span>
+{
+  <span class="key">"id"</span>: <span class="num">1</span>,
+  <span class="key">"estilo"</span>: <span class="str">"IPA"</span>,
+  <span class="key">"detalles"</span>: { <span class="key">"temperatura"</span>: <span class="num">18.5</span>, <span class="key">"operario"</span>: <span class="str">"Francisco"</span> }
+}
+
+<span class="cm">// Documento 2 &mdash; campos adicionales sin migraci&oacute;n</span>
+{
+  <span class="key">"id"</span>: <span class="num">2</span>,
+  <span class="key">"estilo"</span>: <span class="str">"Stout"</span>,
+  <span class="key">"iot_sensor_data"</span>: [<span class="num">18.2, 18.5, 19.0, 18, 4</span>],
+  <span class="key">"clima_exterior"</span>: <span class="str">"Lluvia en Osorno"</span>,
+  <span class="key">"alertas"</span>: <span class="str">"Nivel de espuma alto"</span>,
+  <span class="key">"maestro_cervecero"</span>: <span class="str">"Analista TP"</span>
+}</pre>
+            </div>
+
+            <p>El segundo documento incluye <code>iot_sensor_data</code>, <code>clima_exterior</code>, <code>alertas</code> y <code>maestro_cervecero</code> &mdash; campos que no existen en el primero. En SQL, esto habria requerido ejecutar <code>ALTER TABLE</code> para agregar cada nueva columna.</p>
+
+            <div class="highlight-box">
+                <p><strong>Relaci&oacute;n con la Veracidad:</strong> En Big Data, las fuentes de informaci&oacute;n cambian constantemente (sensores IoT, clima, alertas en tiempo real). La flexibilidad del esquema NoSQL permite capturar toda la informaci&oacute;n disponible sin descartarla por no encajar en una estructura r&iacute;gida. Esto aumenta la Veracidad porque se preserva el contexto completo del dato, incluyendo variables ambientales y operativas que un esquema fijo obligar&iacute;a a omitir o forzar a formatos inadecuados.</p>
+            </div>
+        </section>
+
+        <!-- Pregunta 3: Decisión de Arquitectura -->
+        <section class="section architecture">
+            <div class="section-number">Pregunta 03</div>
+            <h2>Decisi&oacute;n de Arquitectura: Facturaci&oacute;n vs. Redes Sociales</h2>
+
+            <div class="comparison">
+                <div class="comparison-card">
+                    <h3><span class="dot sql"></span>Facturaci&oacute;n &rarr; SQL</h3>
+                    <ul>
+                        <li>Datos estructurados y predecibles (RUT, monto, fecha, folio)</li>
+                        <li>Requiere integridad referencial estricta (clientes, productos, impuestos)</li>
+                        <li>Transacciones ACID obligatorias para cumplimiento legal y tributario</li>
+                        <li>Restricciones CHECK y FOREIGN KEY previenen datos corruptos</li>
+                        <li>Auditor&iacute;a y trazabilidad exigidas por normativa (SII)</li>
+                    </ul>
+                </div>
+                <div class="comparison-card">
+                    <h3><span class="dot nosql"></span>Redes Sociales &rarr; NoSQL</h3>
+                    <ul>
+                        <li>Datos semi/no-estructurados (texto, im&aacute;genes, emojis, hashtags)</li>
+                        <li>Cada comentario puede tener campos distintos (likes, replies, media)</li>
+                        <li>Alto volumen e ingesta en tiempo real</li>
+                        <li>Escalabilidad horizontal prioritaria sobre consistencia estricta</li>
+                        <li>El esquema evoluciona constantemente sin migraciones</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Criterio de decisi&oacute;n:</strong> La facturaci&oacute;n exige que cada registro sea correcto, &iacute;ntegro y legalmente v&aacute;lido &mdash; las restricciones SQL garantizan eso (como se demostr&oacute; con el <code>CHECK</code> en la temperatura). Los comentarios en redes sociales priorizan capturar el mayor volumen y variedad posible sin perder datos por rigidez de esquema &mdash; exactamente lo que demostr&oacute; la simulaci&oacute;n NoSQL al aceptar documentos con estructuras diferentes.</p>
+            </div>
+        </section>
+
+        <footer>
+            Informe generado a partir de <code>dataset.ipynb</code> &mdash; Big Data, Clase 05
+        </footer>
+
+    </div>
+</body>
+</html>

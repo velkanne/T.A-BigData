@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafío Final - Base de Datos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2235;
+            --bg-code: #0d1320;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: #1e293b;
+            --border-accent: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem 5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        header .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(2ef, 68, 68, 0.15));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: var(--accent-amber);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.35rem 1rem;
+            border-radius: 999px;
+            margin-bottom: 1.25rem;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-amber));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.6rem;
+        }
+
+        header p.subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem 2.2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .section.sql::before { background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan)); }
+        .section.nosql::before { background: linear-gradient(90deg, var(--accent-emerald), var(--accent-amber)); }
+
+        .section-number {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .sql .section-number { color: var(--accent-blue); }
+        .nosql .section-number { color: var(--accent-emerald); }
+
+        .section h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        .code-block {
+            background: var(--bg-code);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.2rem 1.4rem;
+            margin: 1.2rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block .lang-tag {
+            position: absolute;
+            top: 0.6rem;
+            right: 0.8rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .code-block pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            line-height: 1.65;
+            color: var(--text-secondary);
+        }
+
+        .output-block {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 10px;
+            padding: 1rem 1.4rem;
+            margin: 1.2rem 0;
+        }
+        
+        .output-block.success {
+            background: rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .output-block .label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .output-block .label.error { color: var(--accent-red); }
+        .output-block .label.ok { color: var(--accent-emerald); }
+
+        .output-block pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .highlight-box {
+            background: rgba(59, 130, 246, 0.07);
+            border-left: 3px solid var(--accent-blue);
+            border-radius: 0 10px 10px 0;
+            padding: 1rem 1.4rem;
+            margin: 1.2rem 0;
+        }
+        
+        .highlight-box.green {
+            background: rgba(16, 185, 129, 0.07);
+            border-color: var(--accent-emerald);
+        }
+
+        .highlight-box p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="badge">Paso 6</div>
+            <h1>El Desafío Final</h1>
+            <p class="subtitle">Rompiendo y solucionando bases de datos en dataset.ipynb</p>
+        </header>
+
+        <section class="section sql">
+            <div class="section-number">Desaf&iacute;o 01</div>
+            <h2>SQL: El l&iacute;mite del esquema r&iacute;gido</h2>
+
+            <p>Al intentar insertar un tercer lote incluyendo un quinto valor para la "Humedad" (ej: <code>40.5</code>) sin declarar la columna previamente en el esquema, se ejecuta:</p>
+
+            <div class="code-block">
+                <span class="lang-tag">Python (SQLite)</span>
+<pre>cursor.execute("INSERT INTO PRODUCCION VALUES (3, 'Pilsner', 250, 12.0, 40.5)")</pre>
+            </div>
+
+            <div class="output-block">
+                <div class="label error">Error devuelto por Python / SQLite</div>
+<pre>sqlite3.OperationalError: table PRODUCCION has 4 columns but 5 values were supplied</pre>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>&iquest;Por qu&eacute; SQL no permite esto sin un ALTER TABLE?</strong><br>
+                Las bases de datos relacionales tradicionales como SQL son <i>Schema-on-Write</i> (Esquema a la escritura). Esto significa que la base de datos es un contrato estricto: antes de aceptar cualquier dato, su estructura (columnas, tipos de datos) debe estar expl&iacute;citamente definida. No admite datos sorpresa para mantener la integridad relacional.</p>
+            </div>
+
+            <p><strong>Soluci&oacute;n ejecutada:</strong> Modificar la estructura de la tabla (Data Definition Language) antes de insertar el dato.</p>
+
+            <div class="code-block">
+                <span class="lang-tag">Soluci&oacute;n SQL</span>
+<pre><span style="color:var(--text-muted)"># 1. Agregar la columna a la estructura</span>
+cursor.execute("ALTER TABLE PRODUCCION ADD COLUMN humedad REAL")
+
+<span style="color:var(--text-muted)"># 2. Insertar el dato (ahora sí concuerdan los valores con las columnas)</span>
+cursor.execute("INSERT INTO PRODUCCION VALUES (3, 'Pilsner', 250, 12.0, 40.5)")
+conn.commit()</pre>
+            </div>
+            
+            <div class="output-block success">
+                <div class="label ok">Resultado</div>
+<pre>Lote ingresado exitosamente con columna humedad soportada.</pre>
+            </div>
+        </section>
+
+        <section class="section nosql">
+            <div class="section-number">Desaf&iacute;o 02</div>
+            <h2>NoSQL: La Variedad y la ausencia de l&iacute;mites</h2>
+
+            <p>Creaci&oacute;n de <code>doc3</code> con propiedades experimentales totalmente disruptivas, sin precedentes en <code>doc1</code> ni <code>doc2</code>:</p>
+
+            <div class="code-block">
+                <span class="lang-tag">Python (Simulaci&oacute;n NoSQL)</span>
+<pre>doc3 = {
+    "id": 3,
+    "estilo": "Cerveza Experimental",
+    "ingrediente_secreto": "Miel de Ulmo",
+    "ph_nivel": 4.5,
+    "vibracion_sonora": "Mozart"
+}
+
+base_nosql.append(doc3)
+print(json.dumps(base_nosql, indent=2))</pre>
+            </div>
+
+            <p>Al ejecutar y consultar, el diccionario/JSON se inyecta e imprime sin lanzar ning&uacute;n error ni advertencia, conviviendo pac&iacute;ficamente en el mismo dataset que los dem&aacute;s lotes.</p>
+
+            <div class="highlight-box green">
+                <p><strong>&iquest;Tuvieron que pedirle "permiso" a la base de datos para guardar estos datos locos?</strong><br>
+                <strong>No. Absolutamente ning&uacute;n permiso.</strong><br><br>
+                <strong>Fundamento:</strong> Los sistemas NoSQL basados en documentos (como MongoDB, modelados aqu&iacute; mediante diccionarios JSON) operan bajo arquitectura <i>Schema-less</i> o de esquema din&aacute;mico. La validaci&oacute;n estructural se delega generalmente a la aplicaci&oacute;n (Schema-on-Read), no a la base de datos.
+                <br><br>
+                Por lo tanto la base de datos asume que todo documento JSON bien formado es v&aacute;lido per se, proporcionando una adaptabilidad l&iacute;quida (Variedad en Big Data) que es vital cuando los atributos del negocio cambian repentinamente, como en esta cerveza experimental.</p>
+            </div>
+        </section>
+        
+    </div>
+</body>
+</html>
