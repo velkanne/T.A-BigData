@@ -1,0 +1,16 @@
+Tema Central:
+La dimensión de «Valor» en el Big Data consiste en transformar grandes volúmenes de datos en información útil para sustentar decisiones estratégicas y económicas de alto impacto. Sin esta conversión, la acumulación de datos representa únicamente un costo operativo.
+
+Casos de Éxito Analizados:
+
+Netflix (Producción de contenido):
+Analizó datos masivos de comportamiento de usuarios (preferencias, retención, consumo compulsivo) para predecir el éxito de la serie "House of Cards". Invirtió 100 millones de dólares en la producción sin someter el proyecto a una evaluación tradicional ni emitir un episodio piloto. La decisión redujo la tasa de cancelación de suscripciones y demostró la viabilidad de reemplazar la intuición editorial por inteligencia basada en evidencia.
+
+Amazon (Precios dinámicos en tiempo real):
+Implementó un sistema automatizado que ajusta el precio de cada producto hasta 2,5 millones de veces por día. El algoritmo analiza en tiempo real los precios de la competencia, la velocidad de venta, el inventario propio y externo, y la sensibilidad al precio. La empresa incrementó sus ingresos netos en un 25% entre 2012 y 2013 al eliminar descuentos innecesarios y acelerar la rotación de inventario.
+
+Zara / Inditex (Diseño por demanda real):
+Centralizó el diseño de prendas basándose en flujos de datos en tiempo real sobre ventas, redes sociales y devoluciones, en lugar de utilizar proyecciones de tendencias a largo plazo. Acortó el tiempo de respuesta entre la detección de una tendencia y su disponibilidad en tienda de 6 meses a 3 semanas. Eliminó la sobreproducción, lo que redujo la tasa de descuentos por fin de temporada del 50% al 15% y aumentó el margen bruto.
+
+Conclusión:
+El valor no es inherente a los datos crudos. Se genera exclusivamente a través del proceso analítico estructurado que detecta patrones y los convierte en decisiones económicas concretas con resultados medibles en ingresos, márgenes o eficiencia.

@@ -1,0 +1,311 @@
+\documentclass[12pt, a4paper]{article}
+
+% ── Paquetes ──────────────────────────────────────────────────────────────────
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{mdframed}
+
+% ── Colores ───────────────────────────────────────────────────────────────────
+\definecolor{primary}{HTML}{1A3C6D}
+\definecolor{accent}{HTML}{C0392B}
+\definecolor{lightbg}{HTML}{F2F4F7}
+\definecolor{darktext}{HTML}{2C3E50}
+\definecolor{graytext}{HTML}{5D6D7E}
+
+% ── Hipervínculos ─────────────────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  linkcolor=primary,
+  urlcolor=accent,
+  citecolor=primary
+}
+
+% ── Formato de secciones ──────────────────────────────────────────────────────
+\titleformat{\section}
+  {\Large\bfseries\color{primary}}
+  {\thesection.}{0.5em}{}
+  [\vspace{-4pt}\textcolor{accent}{\rule{\textwidth}{1.5pt}}]
+
+\titleformat{\subsection}
+  {\large\bfseries\color{darktext}}
+  {\thesubsection}{0.5em}{}
+
+\titleformat{\subsubsection}
+  {\normalsize\bfseries\color{graytext}}
+  {\thesubsubsection}{0.5em}{}
+
+% ── Encabezado y pie ──────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{graytext}Informe --- Las 5~V del Big Data}
+\fancyhead[R]{\small\color{graytext}Valor}
+\fancyfoot[C]{\small\color{graytext}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ── Entorno para cajas destacadas ─────────────────────────────────────────────
+\newmdenv[
+  backgroundcolor=lightbg,
+  linecolor=primary,
+  linewidth=2pt,
+  topline=false,
+  bottomline=false,
+  rightline=false,
+  innerleftmargin=12pt,
+  innerrightmargin=12pt,
+  innertopmargin=10pt,
+  innerbottommargin=10pt,
+  skipabove=8pt,
+  skipbelow=8pt
+]{infobox}
+
+\newmdenv[
+  backgroundcolor=accent!5,
+  linecolor=accent,
+  linewidth=2pt,
+  topline=false,
+  bottomline=false,
+  rightline=false,
+  innerleftmargin=12pt,
+  innerrightmargin=12pt,
+  innertopmargin=10pt,
+  innerbottommargin=10pt,
+  skipabove=8pt,
+  skipbelow=8pt
+]{conclusionbox}
+
+% ── Documento ─────────────────────────────────────────────────────────────────
+\begin{document}
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  PORTADA
+% ════════════════════════════════════════════════════════════════════════════════
+\begin{titlepage}
+\begin{tikzpicture}[remember picture, overlay]
+  % Barra lateral izquierda
+  \fill[primary] (current page.north west) rectangle ++(1.2cm, -\paperheight);
+  % Franja superior
+  \fill[primary] ([yshift=-3cm]current page.north west) rectangle
+                  ([yshift=-3.3cm]current page.north east);
+  % Franja inferior
+  \fill[accent]  ([yshift=2cm]current page.south west) rectangle
+                  ([yshift=2.3cm]current page.south east);
+\end{tikzpicture}
+
+\vspace*{4cm}
+
+\begin{center}
+  {\fontsize{14}{16}\selectfont\color{graytext}\textsc{Informe Académico}}\\[0.8cm]
+  {\fontsize{32}{36}\selectfont\bfseries\color{primary}Las 5~V del Big Data}\\[0.4cm]
+  {\fontsize{22}{26}\selectfont\color{accent}\bfseries VALOR}\\[1.5cm]
+  {\large\color{darktext}Casos de Éxito en la Toma de\\
+   Decisiones Económicas Basadas en Datos}\\[3cm]
+
+  \begin{tabular}{rl}
+    \textcolor{graytext}{\textbf{Asignatura:}} & Taller de Análisis \\[4pt]
+    \textcolor{graytext}{\textbf{Tema:}}       & La V de Valor en Big Data \\[4pt]
+    \textcolor{graytext}{\textbf{Fecha:}}      & 01 de abril de 2026 \\
+  \end{tabular}
+\end{center}
+\end{titlepage}
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  INTRODUCCIÓN
+% ════════════════════════════════════════════════════════════════════════════════
+\section{Introducción}
+
+El concepto de \textbf{<<Valor>>} en el marco de las 5~V del Big Data hace referencia a la capacidad de convertir grandes volúmenes de datos en información útil que sustente decisiones concretas, medibles y de alto impacto económico o estratégico. Sin esta dimensión, los datos son únicamente un costo operativo.
+
+\begin{infobox}
+El presente informe expone \textbf{tres casos de éxito} donde organizaciones de distintos sectores extrajeron valor real de sus datos y, a partir de ello, tomaron decisiones económicas determinantes.
+\end{infobox}
+
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  CASO 1: NETFLIX
+% ════════════════════════════════════════════════════════════════════════════════
+\section{Caso 1: Netflix --- Producción de ``House of Cards'' (2013)}
+
+\subsection{Contexto}
+
+En 2011, Netflix contaba con más de \textbf{30 millones de suscriptores} y registraba datos masivos de comportamiento: géneros preferidos, patrones de abandono por episodio, actores y directores con mayor índice de retención, y contenidos que generaban consumo compulsivo (\textit{binge-watching}).
+
+\subsection{Decisión económica tomada}
+
+Netflix invirtió \textbf{100 millones de dólares} en la producción de la serie original ``House of Cards'' (2013) sin emitir un piloto de prueba ni someter el proyecto a evaluación de audiencias tradicional ---una decisión inusual y de alto riesgo en la industria del entretenimiento.
+
+\subsection{Cómo los datos respaldaron la decisión}
+
+Los analistas cruzaron tres segmentos de su base de usuarios:
+
+\begin{enumerate}[label=(\alph*), leftmargin=2cm]
+  \item Usuarios que habían visto y valorado positivamente la serie original británica ``House of Cards'' (1990).
+  \item De ese grupo, quienes además consumían películas de \textbf{Kevin Spacey}.
+  \item Del resultado anterior, quienes valoraban obras del director \textbf{David Fincher}.
+\end{enumerate}
+
+El solapamiento era estadísticamente significativo: existía una masa crítica de suscriptores activos con alta probabilidad de consumir el contenido antes de producirlo.
+
+\subsection{Valor generado}
+
+\begin{itemize}[leftmargin=1.5cm]
+  \item Se eliminó el ciclo tradicional de evaluación (meses), reduciendo el tiempo de decisión a semanas.
+  \item La serie obtuvo \textbf{9 nominaciones al Emmy} en su primera temporada.
+  \item Se redujo la tasa de cancelación de suscripciones (\textit{churn}) en el período de lanzamiento.
+  \item El \textbf{80\%} del catálogo original de Netflix se decide hoy con la misma lógica de datos.
+\end{itemize}
+
+\begin{conclusionbox}
+\textbf{Conclusión del caso:} Los datos transformaron una inversión especulativa de \$100 millones en una decisión cuantificada, desplazando la intuición editorial por inteligencia basada en evidencia.\\[4pt]
+\textit{\small Fuente: Netflix Tech Blog / Harvard Business Review (2013--2014)}
+\end{conclusionbox}
+
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  CASO 2: AMAZON
+% ════════════════════════════════════════════════════════════════════════════════
+\section{Caso 2: Amazon --- Precios dinámicos en tiempo real}
+
+\subsection{Contexto}
+
+Amazon gestiona decenas de millones de productos en su plataforma y compite en precio con miles de vendedores externos. En 2012, implementó un sistema de Big Data capaz de analizar en tiempo real: demanda por producto, stock disponible, historial de precios de competidores, comportamiento de compra de usuarios y estacionalidad.
+
+\subsection{Decisión económica tomada}
+
+Amazon adoptó un modelo de \textbf{precios dinámicos} (\textit{dynamic pricing}) que ajusta automáticamente el precio de cada producto hasta \textbf{2,5 millones de veces por día}, basándose exclusivamente en los patrones detectados por su sistema de análisis de datos.
+
+\subsection{Cómo los datos respaldaron la decisión}
+
+El sistema cruza continuamente cuatro variables:
+
+\begin{enumerate}[label=(\alph*), leftmargin=2cm]
+  \item Precio actual de competidores directos (web scraping masivo).
+  \item Velocidad de venta del producto en las últimas horas.
+  \item Nivel de inventario propio y de vendedores externos.
+  \item Historial de sensibilidad al precio del segmento de usuarios.
+\end{enumerate}
+
+Si el sistema detecta, por ejemplo, que un competidor bajó su precio un 3\% y la velocidad de venta cayó un 8\%, ajusta el precio de forma automática en minutos.
+
+\subsection{Valor generado}
+
+\begin{itemize}[leftmargin=1.5cm]
+  \item Amazon incrementó sus ingresos netos en un \textbf{25\%} entre 2012 y 2013, período en que el sistema fue implementado a escala.
+  \item El margen operativo mejoró al eliminar descuentos innecesarios y maximizar la conversión en momentos de alta demanda.
+  \item Se redujo el exceso de inventario al detectar con anticipación caídas de demanda y ajustar precios para acelerar la rotación.
+\end{itemize}
+
+\begin{conclusionbox}
+\textbf{Conclusión del caso:} Amazon convirtió datos de mercado en tiempo real en un motor de decisión económica autónomo, maximizando ingresos sin intervención humana directa en cada transacción.\\[4pt]
+\textit{\small Fuente: Forbes / McKinsey Global Institute --- ``Big Data: The next frontier for innovation'' (2012--2013)}
+\end{conclusionbox}
+
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  CASO 3: ZARA
+% ════════════════════════════════════════════════════════════════════════════════
+\section{Caso 3: Zara (Inditex) --- Diseño de colecciones basado en datos}
+
+\subsection{Contexto}
+
+Zara opera más de \textbf{2.000 tiendas} en 96 países. Su modelo de negocio depende de renovar colecciones cada dos semanas, lo que exige decisiones de diseño, producción y distribución extremadamente rápidas. A partir de 2015, Inditex estructuró un sistema de Big Data que recopila información de ventas por tienda, por horario, por zona geográfica y por canal digital.
+
+\subsection{Decisión económica tomada}
+
+Inditex decidió centralizar el diseño de nuevas prendas en función de los datos de \textbf{demanda real} de sus clientes, en lugar de seguir tendencias de moda proyectadas con meses de anticipación. Esto implicó una inversión de \textbf{1.800 millones de euros} en infraestructura tecnológica y logística entre 2016 y 2018.
+
+\subsection{Cómo los datos respaldaron la decisión}
+
+El sistema integra y analiza cuatro flujos de datos en paralelo:
+
+\begin{enumerate}[label=(\alph*), leftmargin=2cm]
+  \item Ventas por referencia, talla y color en tiempo real por tienda y por país.
+  \item Comentarios y búsquedas en redes sociales y e-commerce para detectar tendencias emergentes.
+  \item Devoluciones: qué prendas se devuelven más y por qué razón.
+  \item Comportamiento de navegación en la tienda online: qué productos se ven pero no se compran.
+\end{enumerate}
+
+Si una prenda vende por encima del promedio en Europa del Norte pero no en el sur de España, el sistema genera una alerta para redistribuir stock o ajustar la siguiente producción.
+
+\subsection{Valor generado}
+
+\begin{itemize}[leftmargin=1.5cm]
+  \item Zara redujo su tasa de descuentos por fin de temporada del \textbf{50\% al 15\%}, eliminando la sobreproducción.
+  \item El tiempo entre la detección de una tendencia y la prenda disponible en tienda pasó de \textbf{6 meses a 3 semanas}.
+  \item Inditex aumentó su margen bruto en \textbf{4 puntos porcentuales} entre 2016 y 2019.
+  \item Las devoluciones disminuyeron un \textbf{18\%} al mejorar la adecuación entre producto ofrecido y demanda real.
+\end{itemize}
+
+\begin{conclusionbox}
+\textbf{Conclusión del caso:} Inditex transformó datos operativos de ventas y comportamiento del consumidor en decisiones de diseño y distribución con impacto directo en el margen financiero, eliminando el costo de la sobreproducción y acortando radicalmente los ciclos de respuesta al mercado.\\[4pt]
+\textit{\small Fuente: Inditex Annual Report 2018 / MIT Sloan Management Review --- ``Zara's Secret for Fast Fashion'' (2015--2019)}
+\end{conclusionbox}
+
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  CONCLUSIÓN GENERAL
+% ════════════════════════════════════════════════════════════════════════════════
+\section{Conclusión General}
+
+Los tres casos analizados comparten un patrón común que define la V de Valor en Big Data:
+
+\begin{enumerate}[leftmargin=1.5cm]
+  \item Datos crudos existentes (comportamiento, ventas, precios).
+  \item Análisis estructurado que detecta patrones no visibles.
+  \item Decisión económica concreta y cuantificable.
+  \item Resultado medible: ingresos, márgenes, retención o eficiencia.
+\end{enumerate}
+
+\begin{infobox}
+El \textbf{Valor} no es inherente al dato en sí, sino al proceso analítico que lo convierte en acción. Las organizaciones que dominan esta conversión obtienen una \textbf{ventaja competitiva sostenible} y reducen el riesgo asociado a decisiones de alta inversión.
+\end{infobox}
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  TABLA COMPARATIVA
+% ════════════════════════════════════════════════════════════════════════════════
+\vspace{0.5cm}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{>{\bfseries\color{primary}}l X X X}
+\toprule
+\textcolor{darktext}{} & \textbf{Netflix} & \textbf{Amazon} & \textbf{Zara (Inditex)} \\
+\midrule
+Inversión & \$100M & Sistema propio & €1.800M \\
+Decisión  & Producir sin piloto & Precios dinámicos & Diseño por demanda real \\
+Datos usados & Comportamiento usuarios & Mercado tiempo real & Ventas + devoluciones \\
+Resultado clave & 9 Emmy + baja churn & +25\% ingresos & Descuentos 50\%→15\% \\
+\bottomrule
+\end{tabularx}
+\caption{Comparativa de los tres casos de éxito analizados.}
+\end{table}
+
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  REFERENCIAS
+% ════════════════════════════════════════════════════════════════════════════════
+\section*{Referencias}
+\addcontentsline{toc}{section}{Referencias}
+
+\begin{itemize}[leftmargin=1.5cm]
+  \item Netflix Tech Blog / Harvard Business Review (2013--2014).
+  \item Forbes / McKinsey Global Institute --- ``Big Data: The next frontier for innovation'' (2012--2013).
+  \item Inditex Annual Report 2018.
+  \item MIT Sloan Management Review --- ``Zara's Secret for Fast Fashion'' (2015--2019).
+\end{itemize}
+
+\end{document}

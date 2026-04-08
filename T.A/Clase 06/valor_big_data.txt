@@ -1,0 +1,70 @@
+============================================================
+  LAS 5 V DEL BIG DATA — VALOR
+  Caso de Éxito: Netflix y la Decisión de Producir "House of Cards"
+============================================================
+
+CONTEXTO
+--------
+En 2011, Netflix disponía de más de 30 millones de suscriptores y acumulaba
+una cantidad masiva de datos de comportamiento: qué series veían los usuarios,
+en qué episodio pausaban, qué géneros repetían, qué actores generaban mayor
+retención y qué contenido producía "binge-watching" (consumo compulsivo).
+
+DECISIÓN ECONÓMICA TOMADA
+--------------------------
+Netflix invirtió 100 millones de dólares en producir la serie original
+"House of Cards" (2013) sin emitir un piloto de prueba ni pasar por
+evaluación tradicional de audiencias. Esta decisión —inusual y de alto
+riesgo en la industria del entretenimiento— fue tomada exclusivamente
+a partir del análisis de datos internos.
+
+CÓMO LOS DATOS RESPALDARON LA DECISIÓN
+----------------------------------------
+Los analistas de Netflix cruzaron tres variables clave dentro de su
+base de datos:
+
+  1. Usuarios que habían visto la película original británica
+     "House of Cards" (1990) y la habían calificado positivamente.
+
+  2. Usuarios de ese mismo segmento que además consumían películas
+     protagonizadas por Kevin Spacey.
+
+  3. Usuarios del cruce anterior que también veían o valoraban
+     positivamente obras del director David Fincher.
+
+El solapamiento entre estos tres grupos era estadísticamente significativo
+y representaba una masa crítica de suscriptores activos con alta
+probabilidad de retención.
+
+VALOR GENERADO (LA "V" DE VALOR)
+----------------------------------
+El análisis transformó datos crudos de comportamiento —clicks, historial,
+ratings— en información accionable con impacto económico directo:
+
+  - Eliminó la incertidumbre del modelo tradicional (piloto + evaluación
+    de focus groups), reduciendo el ciclo de decisión de meses a semanas.
+
+  - Garantizó una audiencia pre-identificada antes de producir el contenido,
+    convirtiendo el gasto de 100 millones en una inversión con respaldo
+    cuantitativo, no en una apuesta especulativa.
+
+  - "House of Cards" obtuvo 9 nominaciones al Emmy en su primera temporada,
+    redujo la tasa de cancelación de suscripciones ("churn") en el período
+    de lanzamiento e impulsó nuevas suscripciones en mercados donde la
+    serie tuvo mayor exposición.
+
+  - Netflix expandió el modelo: hoy el 80% de su catálogo original se
+    decide con lógica de datos equivalente.
+
+CONCLUSIÓN
+-----------
+El Valor en Big Data no reside en el volumen de información almacenada,
+sino en la capacidad de extraer de ella una decisión económica concreta
+y medible. En este caso, los datos convirtieron una apuesta de 100 millones
+de dólares en una decisión fundamentada, desplazando la intuición editorial
+por inteligencia basada en evidencia.
+
+============================================================
+Fuente de referencia: Netflix Tech Blog / Harvard Business Review
+(Caso "Netflix Big Data Strategy", 2013-2014)
+============================================================

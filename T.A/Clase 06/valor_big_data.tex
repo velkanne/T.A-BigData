@@ -1,0 +1,292 @@
+\documentclass[a4paper]{article}
+
+% ── Paquetes ──────────────────────────────────────────────────────────────────
+\usepackage[margin=0.6cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{mdframed}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, shadows, backgrounds, calc}
+
+% ── Paleta de colores ──────────────────────────────────────────────────────────
+\definecolor{netflix}{HTML}{E50914}
+\definecolor{darkbg}{HTML}{141414}
+\definecolor{cardbg}{HTML}{1F1F1F}
+\definecolor{accent}{HTML}{E50914}
+\definecolor{gold}{HTML}{F5A623}
+\definecolor{silver}{HTML}{AAAAAA}
+\definecolor{lightgray}{HTML}{2A2A2A}
+\definecolor{textwhite}{HTML}{FFFFFF}
+\definecolor{textgray}{HTML}{CCCCCC}
+\definecolor{highlight}{HTML}{FF6B6B}
+
+\pagecolor{darkbg}
+\color{textwhite}
+
+% ── Sin número de página ──────────────────────────────────────────────────────
+\pagestyle{empty}
+
+\begin{document}
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  CABECERA PRINCIPAL
+% ════════════════════════════════════════════════════════════════════════════════
+\begin{tikzpicture}[remember picture, overlay]
+  % Barra superior roja
+  \fill[netflix] (current page.north west) rectangle +(\paperwidth, -2.8cm);
+
+  % Etiqueta 5V
+  \node[anchor=west, text=textwhite, font=\fontsize{9}{9}\selectfont\bfseries,
+        inner sep=0pt] at ([xshift=1cm, yshift=-0.55cm]current page.north west)
+    {\textls[200]{LAS 5 V DEL BIG DATA}};
+
+  % Título grande
+  \node[anchor=west, text=textwhite, font=\fontsize{34}{34}\selectfont\bfseries,
+        inner sep=0pt] at ([xshift=1cm, yshift=-1.45cm]current page.north west)
+    {VALOR};
+
+  % Subtítulo
+  \node[anchor=west, text=textwhite!80, font=\fontsize{11}{11}\selectfont,
+        inner sep=0pt] at ([xshift=1cm, yshift=-2.25cm]current page.north west)
+    {Caso de éxito: \textbf{Netflix} y la producción de \textit{House of Cards}};
+
+  % Ícono lado derecho
+  \node[anchor=east, text=textwhite, font=\fontsize{42}{42}\selectfont,
+        inner sep=0pt] at ([xshift=-1cm, yshift=-1.4cm]current page.north east)
+    {\faChartLine};
+\end{tikzpicture}
+
+\vspace{2.9cm}
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  FILA 1 — Definición + Contexto
+% ════════════════════════════════════════════════════════════════════════════════
+\noindent
+\begin{tikzpicture}
+% ── Card: Qué es el Valor ──────────────────────────────────────────────────────
+\node[anchor=north west,
+      fill=cardbg,
+      rounded corners=6pt,
+      minimum width=8.6cm,
+      minimum height=4.6cm,
+      text width=8cm,
+      inner sep=12pt] (defcard) at (0,0) {
+  {\color{netflix}\faDatabase\quad\fontsize{10}{10}\selectfont\bfseries¿QUÉ ES EL VALOR EN BIG DATA?}\\[6pt]
+  {\color{textgray}\fontsize{9.5}{13}\selectfont
+  El \textbf{\color{textwhite}Valor} es la capacidad de transformar
+  grandes volúmenes de datos crudos en \textbf{\color{gold}información
+  accionable} que genere un impacto económico, social o estratégico
+  concreto y medible.\\[6pt]
+  No basta con tener datos: deben convertirse en
+  \textbf{\color{textwhite}decisiones}.}
+};
+
+% ── Card: Contexto ────────────────────────────────────────────────────────────
+\node[anchor=north west,
+      fill=cardbg,
+      rounded corners=6pt,
+      minimum width=9.6cm,
+      minimum height=4.6cm,
+      text width=9cm,
+      inner sep=12pt] (ctxcard) at (9cm,0) {
+  {\color{netflix}\faFilm\quad\fontsize{10}{10}\selectfont\bfseries CONTEXTO}\\[6pt]
+  {\color{textgray}\fontsize{9.5}{13}\selectfont
+  En \textbf{\color{textwhite}2011}, Netflix contaba con
+  \textbf{\color{gold}+30 millones} de suscriptores y acumulaba datos de
+  comportamiento masivos: géneros preferidos, actores y directores con mayor
+  retención, episodios donde los usuarios abandonaban y patrones de
+  consumo compulsivo (\textit{binge-watching}).\\[6pt]
+  Estos datos eran la materia prima de una decisión de
+  \textbf{\color{netflix}\$100.000.000}.}
+};
+\end{tikzpicture}
+
+\vspace{0.35cm}
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  FILA 2 — Cómo se tomó la decisión (pipeline de datos)
+% ════════════════════════════════════════════════════════════════════════════════
+\noindent
+\begin{tikzpicture}
+\node[anchor=north west,
+      fill=cardbg,
+      rounded corners=6pt,
+      minimum width=18.6cm,
+      text width=18cm,
+      inner sep=14pt] (pipeline) at (0,0) {
+  {\color{netflix}\faCodeBranch\quad\fontsize{10}{10}\selectfont\bfseries CRUCE DE DATOS QUE RESPALDÓ LA INVERSIÓN}\\[10pt]
+  % Diagrama de flujo con TikZ interno
+  \begin{tikzpicture}[
+    box/.style={fill=lightgray, rounded corners=5pt, minimum width=4.2cm,
+                minimum height=1.5cm, text width=3.8cm, align=center,
+                font=\fontsize{8.5}{11}\selectfont, text=textgray, inner sep=6pt},
+    arrow/.style={-Stealth, thick, color=netflix},
+    node distance=0.6cm
+  ]
+    \node[box] (v1) {
+      {\color{gold}\faUsers}\\[3pt]
+      Usuarios que vieron\\
+      \textbf{\color{textwhite}House of Cards (1990)}\\
+      y la valoraron positivamente
+    };
+    \node[box, right=of v1] (v2) {
+      {\color{gold}\faUserTie}\\[3pt]
+      De ese grupo, los que\\
+      consumían films de\\
+      \textbf{\color{textwhite}Kevin Spacey}
+    };
+    \node[box, right=of v2] (v3) {
+      {\color{gold}\faVideo}\\[3pt]
+      De ese grupo, los que\\
+      valoraban obras de\\
+      \textbf{\color{textwhite}David Fincher}
+    };
+
+    \node[fill=netflix, rounded corners=5pt, minimum width=4.2cm,
+          minimum height=1.5cm, text width=3.8cm, align=center,
+          font=\fontsize{8.5}{11}\selectfont, text=textwhite, inner sep=6pt,
+          right=of v3] (resultado) {
+      {\faChartPie}\\[3pt]
+      \textbf{Solapamiento}\\
+      estadísticamente\\
+      significativo
+    };
+
+    \draw[arrow] (v1) -- (v2);
+    \draw[arrow] (v2) -- (v3);
+    \draw[arrow] (v3) -- (resultado);
+  \end{tikzpicture}
+  \\[8pt]
+  {\color{textgray}\fontsize{9}{12}\selectfont
+  El análisis cruzado identificó una \textbf{\color{textwhite}masa crítica de suscriptores activos}
+  con alta probabilidad de consumir el contenido \textit{antes} de producirlo, convirtiendo
+  la inversión en una apuesta con respaldo cuantitativo.}
+};
+\end{tikzpicture}
+
+\vspace{0.35cm}
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  FILA 3 — KPIs + Decisión + Expansión
+% ════════════════════════════════════════════════════════════════════════════════
+\noindent
+\begin{tikzpicture}
+
+% ── KPIs ──────────────────────────────────────────────────────────────────────
+\node[anchor=north west,
+      fill=cardbg,
+      rounded corners=6pt,
+      minimum width=5.8cm,
+      text width=5.2cm,
+      inner sep=13pt] (kpi) at (0,0) {
+  {\color{netflix}\faTrophy\quad\fontsize{10}{10}\selectfont\bfseries RESULTADOS}\\[8pt]
+  % KPI 1
+  \begin{tikzpicture}
+    \fill[netflix] (0,0) rectangle (0.18cm, 0.7cm);
+    \node[anchor=west, text=textgray, font=\fontsize{8.5}{11}\selectfont,
+          text width=4.2cm] at (0.28cm, 0.35cm)
+      {\textbf{\color{gold}9 nominaciones} al Emmy en la primera temporada.};
+  \end{tikzpicture}\\[5pt]
+  \begin{tikzpicture}
+    \fill[netflix] (0,0) rectangle (0.18cm, 0.7cm);
+    \node[anchor=west, text=textgray, font=\fontsize{8.5}{11}\selectfont,
+          text width=4.2cm] at (0.28cm, 0.35cm)
+      {\textbf{\color{gold}Reducción del churn} (cancelaciones) en el período de lanzamiento.};
+  \end{tikzpicture}\\[5pt]
+  \begin{tikzpicture}
+    \fill[netflix] (0,0) rectangle (0.18cm, 0.7cm);
+    \node[anchor=west, text=textgray, font=\fontsize{8.5}{11}\selectfont,
+          text width=4.2cm] at (0.28cm, 0.35cm)
+      {\textbf{\color{gold}Nuevas suscripciones} en mercados de alta exposición.};
+  \end{tikzpicture}\\[5pt]
+  \begin{tikzpicture}
+    \fill[netflix] (0,0) rectangle (0.18cm, 0.7cm);
+    \node[anchor=west, text=textgray, font=\fontsize{8.5}{11}\selectfont,
+          text width=4.2cm] at (0.28cm, 0.35cm)
+      {\textbf{\color{gold}80\% del catálogo} original Netflix se decide hoy con este modelo.};
+  \end{tikzpicture}
+};
+
+% ── Decisión económica ────────────────────────────────────────────────────────
+\node[anchor=north west,
+      fill=netflix,
+      rounded corners=6pt,
+      minimum width=6.6cm,
+      text width=6cm,
+      inner sep=14pt] (decision) at (6.3cm,0) {
+  {\color{textwhite}\faDollarSign\quad\fontsize{10}{10}\selectfont\bfseries DECISIÓN ECONÓMICA}\\[8pt]
+  {\fontsize{28}{28}\selectfont\bfseries\color{textwhite}\$100M}\\
+  {\fontsize{8.5}{12}\selectfont\color{textwhite!85}
+  de inversión en producción propia \textbf{sin piloto} de prueba ni
+  evaluación de \textit{focus groups}, respaldada \textbf{100\% por datos}
+  de comportamiento interno.\\[6pt]
+  Esto eliminó el ciclo tradicional de \textbf{meses} de evaluación
+  y lo redujo a \textbf{semanas}.}
+};
+
+% ── Valor vs Método Tradicional ───────────────────────────────────────────────
+\node[anchor=north west,
+      fill=cardbg,
+      rounded corners=6pt,
+      minimum width=5.9cm,
+      text width=5.3cm,
+      inner sep=13pt] (compare) at (13.4cm,0) {
+  {\color{netflix}\faExchangeAlt\quad\fontsize{10}{10}\selectfont\bfseries MODELO TRADICIONAL vs. BIG DATA}\\[8pt]
+  {\color{textgray}\fontsize{8.5}{13}\selectfont
+  \textbf{\color{silver}Antes (sin datos):}\\
+  Piloto → Focus group → Aprobación editorial → Producción.
+  \textbf{Alta incertidumbre.}\\[6pt]
+  \textbf{\color{gold}Con Big Data:}\\
+  Análisis de comportamiento → Audiencia pre-identificada → Decisión fundamentada.
+  \textbf{Riesgo cuantificado.}}
+};
+
+\end{tikzpicture}
+
+\vspace{0.35cm}
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  FILA 4 — Conclusión
+% ════════════════════════════════════════════════════════════════════════════════
+\noindent
+\begin{tikzpicture}
+\node[anchor=north west,
+      fill=lightgray,
+      rounded corners=6pt,
+      minimum width=18.6cm,
+      text width=18cm,
+      inner sep=14pt] (conclusion) at (0,0) {
+  {\color{netflix}\faLightbulb\quad\fontsize{10}{10}\selectfont\bfseries CONCLUSIÓN — LA V DE VALOR}\\[6pt]
+  {\color=textgray\fontsize{9.5}{14}\selectfont
+  El \textbf{\color{textwhite}Valor} en Big Data no reside en el volumen de información almacenada,
+  sino en la capacidad de extraer de ella una \textbf{\color{gold}decisión económica concreta y medible}.
+  Netflix transformó datos de comportamiento —\textit{clicks}, historial, ratings— en una inversión de
+  \textbf{\color{netflix}\$100 millones} con respaldo estadístico, desplazando la intuición editorial
+  por \textbf{\color{textwhite}inteligencia basada en evidencia}. Ese es el Valor real del Big Data.}
+};
+\end{tikzpicture}
+
+\vspace{0.3cm}
+
+% ════════════════════════════════════════════════════════════════════════════════
+%  PIE DE PÁGINA
+% ════════════════════════════════════════════════════════════════════════════════
+\noindent
+\begin{tikzpicture}
+  \draw[silver!30, line width=0.4pt] (0,0) -- (18.6cm, 0);
+  \node[anchor=west, font=\fontsize{7.5}{7.5}\selectfont, text=silver]
+    at (0, -0.3cm) {Fuente: Netflix Tech Blog · Harvard Business Review — Caso Netflix Big Data Strategy (2013-2014)};
+  \node[anchor=east, font=\fontsize{7.5}{7.5}\selectfont, text=silver]
+    at (18.6cm, -0.3cm) {Big Data · 5V · Valor};
+\end{tikzpicture}
+
+\end{document}
