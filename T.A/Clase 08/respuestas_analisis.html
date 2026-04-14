@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Modelo - Clase 08</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #007acc;
+            --container-bg: #1e1e1e;
+            --border-color: #333333;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        h1 {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            color: #ffffff;
+            font-size: 1.8rem;
+        }
+        .card {
+            background-color: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .question {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .answer {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1rem;
+            color: #cccccc;
+        }
+        .keyword {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Análisis Técnicos: Árbol de Decisión</h1>
+
+        <div class="card">
+            <div class="question">1. Si el modelo sin poda tiene un 95% de precision en entrenamiento y un 70% en prueba ¿como se llama tecnicamente este fenomeno?</div>
+            <div class="answer">
+                Fenómeno: <span class="keyword">Sobreajuste (Overfitting)</span>.<br><br>
+                Causa y Efecto: El modelo memoriza el ruido, excepciones y varianza extrema exclusiva del conjunto de entrenamiento. La alta complejidad del árbol (sin poda) impide una abstracción genérica de los patrones, resultando en alta tasa de fallo al evaluar datos invisibles hasta el momento (conjunto de prueba).
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="question">2. Al limitar el arbol a max_depth=3, ¿perdimos precision pero ganamos que otra cosa importate para explicar a un cliente?</div>
+            <div class="answer">
+                Beneficio: <span class="keyword">Interpretabilidad (Explicabilidad del Modelo)</span>.<br><br>
+                Justificación: Al restringir la profundidad a tres niveles máximo, se reduce la cantidad de reglas condicionales concurrentes generadas. Esto permite imprimir y diagramar lógicas exactas del modelo, transformando un sistema de caja negra en un proceso demostrable y auditable, crítico para generar confianza en perfiles de negocio o validación de clientes sin perfil analítico.
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="question">3. Si la matriz confunde mucho "NORTE" con "SUR", ¿qué dimensión de calidad de datos de la unidad 1 está fallando?</div>
+            <div class="answer">
+                Dimensión: <span class="keyword">Validez / Relevancia (Exactitud Temática)</span> o <span class="keyword">Completitud (Variables Omitidas)</span>.<br><br>
+                Diagnóstico: Las clases se solapan dimensionalmente. Los atributos ingresantes (PRECIO_COMPRA, PRECIO_VENTA, CANTIDAD) no encapsulan variaciones regionales exclusivas para distinguir "NORTE" y "SUR". La base de datos es procesable pero la estructura lógica de los datos de origen no asegura la representación real de fronteras entre dichas áreas. Requiere re-ingeniería de variables (feature engineering) o depuración de etiquetas incorrectas.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

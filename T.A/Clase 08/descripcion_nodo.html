@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descripción del Nodo — Árbol de Decisión</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f8;
+            color: #2c3e50;
+            padding: 40px 20px;
+            line-height: 1.7;
+        }
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 40px 48px;
+        }
+        h1 {
+            font-size: 1.6rem;
+            color: #1a2a3a;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 12px;
+            margin-bottom: 28px;
+        }
+        h2 {
+            font-size: 1.2rem;
+            color: #2980b9;
+            margin: 28px 0 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+        }
+        th, td {
+            text-align: left;
+            padding: 10px 14px;
+            border: 1px solid #dce4ec;
+        }
+        th {
+            background: #2c3e50;
+            color: #fff;
+            font-weight: 600;
+        }
+        tr:nth-child(even) { background: #f0f4f8; }
+        tr:hover { background: #e8eff5; }
+        .formula {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 16px 20px;
+            margin: 18px 0;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.95rem;
+            white-space: pre-line;
+        }
+        .nota {
+            background: #fef9e7;
+            border-left: 4px solid #f39c12;
+            padding: 14px 18px;
+            margin: 18px 0;
+            font-size: 0.95rem;
+        }
+        .conclusion {
+            background: #eafaf1;
+            border-left: 4px solid #27ae60;
+            padding: 14px 18px;
+            margin: 18px 0;
+            font-size: 0.95rem;
+        }
+        strong { color: #1a2a3a; }
+        code {
+            background: #ecf0f1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.92rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Descripción del Nodo — Árbol de Decisión Podado</h1>
+
+        <h2>1. Datos del nodo</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Valor</th>
+                    <th>Significado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>CANTIDAD &lt;= 99.5</strong></td>
+                    <td>Condición de división</td>
+                    <td>Si <code>CANTIDAD</code> es &le; 99.5 va a la rama izquierda; si es &gt; 99.5 va a la rama derecha.</td>
+                </tr>
+                <tr>
+                    <td><strong>gini = 0.667</strong></td>
+                    <td>Impureza Gini</td>
+                    <td>Valor alto (máximo &asymp; 0.667 para 3 clases). Indica que las 3 clases están distribuidas de forma casi equitativa: el nodo es <strong>muy impuro</strong> y no distingue bien entre clases.</td>
+                </tr>
+                <tr>
+                    <td><strong>samples = 2079</strong></td>
+                    <td>Cantidad de muestras</td>
+                    <td>2079 registros del dataset de entrenamiento caen en este nodo.</td>
+                </tr>
+                <tr>
+                    <td><strong>value = [704, 576, 699]</strong></td>
+                    <td>Distribución por clase</td>
+                    <td>704 muestras de la 1ª región, 576 de la 2ª, 699 de la 3ª (las 3 clases de <code>Region_Vendedor</code>).</td>
+                </tr>
+                <tr>
+                    <td><strong>class = NORTE</strong></td>
+                    <td>Clase mayoritaria</td>
+                    <td>La clase con más muestras es <strong>NORTE</strong> (704). Si el nodo no se dividiera más, predeciría NORTE.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>2. ¿Por qué el Gini es tan alto (0.667)?</h2>
+        <p>Las 3 clases tienen cantidades casi iguales (704 &asymp; 576 &asymp; 699). Un Gini de 0.667 para 3 clases significa una mezcla prácticamente perfecta: el nodo no tiene poder discriminatorio por sí solo. El árbol necesita seguir dividiendo (usando la condición <code>CANTIDAD &lt;= 99.5</code>) para separar mejor las clases.</p>
+
+        <h2>3. Cálculo de la fórmula Gini</h2>
+        <div class="formula">Gini = 1 - (704/2079)² - (576/2079)² - (699/2079)²
+     = 1 - 0.1147 - 0.0768 - 0.1131
+     = <strong>0.667</strong></div>
+
+        <h2>4. Interpretación</h2>
+        <div class="nota">
+            <strong>Nota:</strong> Este nodo es probablemente el <strong>nodo raíz</strong> del árbol podado (<code>max_depth=3</code>), dado que contiene todas las muestras de entrenamiento (2079) y la primera variable que el árbol eligió para dividir fue <code>CANTIDAD</code>.
+        </div>
+
+        <div class="conclusion">
+            <strong>Conclusión:</strong> El nodo indica que la variable <code>CANTIDAD</code> con umbral 99.5 es la primera decisión que toma el modelo para intentar separar las regiones de los vendedores. Sin embargo, el alto valor de Gini (0.667) demuestra que esta sola condición no es suficiente para clasificar correctamente, por lo que el árbol debe continuar ramificándose usando las demás variables (<code>PRECIO_COMPRA</code>, <code>PRECIO_VENTA</code>) en niveles inferiores.
+        </div>
+    </div>
+</body>
+</html>
