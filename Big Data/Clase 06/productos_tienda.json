@@ -1,0 +1,48 @@
+[
+    {
+        "id": "PROD-001",
+        "nombre": "Polera Oversize",
+        "precio": 15990,
+        "caracteristicas": {
+            "color": "Negro",
+            "material": "Algod\u00f3n 100%",
+            "tallas": [
+                "S",
+                "M",
+                "L"
+            ]
+        },
+        "imagen_url": "https://virtualsur.cl/ropa/polera_negra.jpg",
+        "stock": 50
+    },
+    {
+        "id": "PROD-002",
+        "nombre": "Jeans Slim Fit",
+        "precio": 29990,
+        "caracteristicas": {
+            "color": "Azul Denim",
+            "calce": "Slim"
+        },
+        "imagen_url": "https://virtualsur.cl/ropa/jeans_azul.jpg",
+        "stock": 30,
+        "temporada": "Invierno 2026"
+    },
+    {
+        "id": "PROD-003",
+        "nombre": "Chaqueta Eco-Friendly",
+        "precio": 45990,
+        "caracteristicas": {
+            "color": "Verde Oliva",
+            "material": "Poli\u00e9ster Reciclado",
+            "tallas": [
+                "M",
+                "L",
+                "XL"
+            ]
+        },
+        "imagen_url": "https://virtualsur.cl/ropa/chaqueta_eco.jpg",
+        "stock": 20,
+        "es_sustentable": true,
+        "descuento_estudiante": 15
+    }
+]
