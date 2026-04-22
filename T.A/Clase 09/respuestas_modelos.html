@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis de Modelos Predictivos - Amazon Products</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f0f1a;
+            color: #e0e0e0;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #e2b93b, #f0d060);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #8892a4;
+            font-size: 0.95rem;
+        }
+
+        .modelo {
+            margin-bottom: 45px;
+            background: #161625;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.05);
+            overflow: hidden;
+        }
+
+        .modelo-header {
+            padding: 22px 28px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .modelo-header .numero {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .m1 .modelo-header { background: linear-gradient(135deg, #1b2838, #1e3a5f); }
+        .m1 .numero { background: #e2b93b; color: #1a1a2e; }
+
+        .m2 .modelo-header { background: linear-gradient(135deg, #1b2838, #2d1b4e); }
+        .m2 .numero { background: #a855f7; color: #1a1a2e; }
+
+        .m3 .modelo-header { background: linear-gradient(135deg, #1b2838, #1b3b2f); }
+        .m3 .numero { background: #22c55e; color: #1a1a2e; }
+
+        .modelo-header h2 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .modelo-header .subtitulo {
+            font-size: 0.82rem;
+            color: #8892a4;
+            font-weight: 400;
+        }
+
+        .modelo-body {
+            padding: 28px;
+        }
+
+        .pregunta {
+            margin-bottom: 26px;
+        }
+
+        .pregunta:last-child {
+            margin-bottom: 0;
+        }
+
+        .pregunta h3 {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #c0c8d8;
+            margin-bottom: 10px;
+            padding-left: 14px;
+            border-left: 3px solid;
+        }
+
+        .m1 .pregunta h3 { border-color: #e2b93b; }
+        .m2 .pregunta h3 { border-color: #a855f7; }
+        .m3 .pregunta h3 { border-color: #22c55e; }
+
+        .pregunta p {
+            font-size: 0.88rem;
+            color: #a0a8b8;
+            padding-left: 17px;
+        }
+
+        .highlight {
+            background: rgba(226, 185, 59, 0.1);
+            border: 1px solid rgba(226, 185, 59, 0.2);
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-top: 8px;
+            margin-left: 17px;
+            font-size: 0.85rem;
+            color: #d4c78a;
+        }
+
+        .highlight-purple {
+            background: rgba(168, 85, 247, 0.08);
+            border: 1px solid rgba(168, 85, 247, 0.18);
+            color: #c4a0e8;
+        }
+
+        .highlight-green {
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.18);
+            color: #8fd4a8;
+        }
+
+        .separator {
+            height: 1px;
+            background: rgba(255,255,255,0.05);
+            margin: 22px 0;
+        }
+
+        strong {
+            color: #e0e6f0;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #4a5060;
+            font-size: 0.78rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <h1>Analisis de Modelos Predictivos</h1>
+            <p>Dataset: amazonproducts.csv &mdash; Arboles de Decision con scikit-learn</p>
+        </header>
+
+        <!-- MODELO 1 -->
+        <div class="modelo m1">
+            <div class="modelo-header">
+                <div class="numero">1</div>
+                <div>
+                    <h2>El Detector de "Best Sellers"</h2>
+                    <span class="subtitulo">Entender que hace que un producto sea un exito de ventas</span>
+                </div>
+            </div>
+            <div class="modelo-body">
+
+                <div class="pregunta">
+                    <h3>Analisis del Arbol: La raiz</h3>
+                    <p>
+                        La variable en la raiz del arbol es <strong>resenas</strong> (reviews_count), no el precio ni las imagenes. 
+                        El arbol divide primero por la cantidad de resenas porque es el indicador mas fuerte de popularidad: 
+                        un producto con muchas resenas ya demuestra un alto volumen de ventas previas. 
+                        Esto revela que en Amazon la <strong>prueba social</strong> (opiniones de otros compradores) 
+                        pesa mas que el precio al determinar si un producto se convierte en Best Seller.
+                        La gente compra lo que otros ya validaron.
+                    </p>
+                </div>
+
+                <div class="separator"></div>
+
+                <div class="pregunta">
+                    <h3>Hipotesis: 10 fotos y 0 videos</h3>
+                    <p>
+                        Si, un producto con 10 fotos y 0 videos mantiene probabilidades altas de ser Top, 
+                        siempre que cumpla con la condicion dominante del arbol: tener un numero suficiente de resenas. 
+                        La variable <strong>videos</strong> tiene la importancia mas baja en el modelo. 
+                        Las imagenes aportan mas que los videos, pero ninguna supera el peso de las resenas. 
+                        El arbol confirma que la ausencia de video no penaliza significativamente si el resto de indicadores son solidos.
+                    </p>
+                    <div class="highlight">
+                        El orden de importancia tipico es: resenas > precio > imagenes > videos. 
+                        Un producto sin videos pero con +500 resenas y precio competitivo sigue clasificando como Top.
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <div class="pregunta">
+                    <h3>Aplicacion Real: Recomendacion para vendedor con ranking bajo</h3>
+                    <p>
+                        Basado en la importancia de variables del modelo, las recomendaciones en orden de prioridad serian:
+                    </p>
+                    <p>
+                        <strong>1. Generar resenas:</strong> Implementar estrategias post-venta (emails de seguimiento, inserts en paquetes) 
+                        para acumular resenas verificadas. Es la variable que mas mueve la aguja.<br><br>
+                        <strong>2. Ajustar precio:</strong> Revisar el precio frente a competidores directos. 
+                        El arbol muestra umbrales de precio donde la probabilidad de ser Top cambia drasticamente.<br><br>
+                        <strong>3. Mejorar imagenes:</strong> Subir al menos 5-7 fotos de calidad profesional. 
+                        Los productos con mas imagenes tienen mayor tasa de conversion.<br><br>
+                        <strong>4. Agregar video:</strong> Util pero secundario. Solo invertir en esto despues de resolver los 3 puntos anteriores.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- MODELO 2 -->
+        <div class="modelo m2">
+            <div class="modelo-header">
+                <div class="numero">2</div>
+                <div>
+                    <h2>El Predictor de Calidad Premium</h2>
+                    <span class="subtitulo">Relacion entre marca, precio y satisfaccion</span>
+                </div>
+            </div>
+            <div class="modelo-body">
+
+                <div class="pregunta">
+                    <h3>El Factor Marca</h3>
+                    <p>
+                        Si, existen marcas que el arbol clasifica automaticamente como Premium sin importar el precio. 
+                        El <strong>LabelEncoder</strong> asigna un codigo numerico a cada marca, y el arbol aprende que ciertos 
+                        codigos (marcas) tienen ratings consistentemente altos. 
+                        El modelo aprendio eso porque esas marcas tienen un historial de calidad en el dataset: 
+                        sus productos mantienen ratings >= 4.5 de forma sistematica. 
+                        El arbol detecta ese patron y lo usa como atajo: si la marca es X, clasificar como Premium directamente, 
+                        sin necesidad de evaluar precio ni descuento.
+                    </p>
+                    <div class="highlight highlight-purple">
+                        Esto refleja la realidad del mercado: marcas con reputacion consolidada 
+                        (ej. marcas con control de calidad estricto) generan confianza independiente del precio.
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <div class="pregunta">
+                    <h3>Precio vs. Felicidad</h3>
+                    <p>
+                        El arbol muestra caminos donde productos baratos (por debajo del primer cuartil de precio) 
+                        obtienen rating > 4.5. Las condiciones que se cumplen en esos caminos son:
+                    </p>
+                    <p>
+                        <strong>- Descuento moderado a alto:</strong> Los productos baratos con buen rating suelen tener 
+                        descuentos visibles, lo que refuerza la percepcion de "buena oferta" en el comprador.<br><br>
+                        <strong>- Marcas especificas:</strong> No cualquier producto barato logra rating alto. 
+                        Solo los de marcas que ya tienen buena reputacion en el dataset.<br><br>
+                        <strong>- Alto numero de resenas:</strong> Los productos baratos con rating alto tienden a tener 
+                        muchas resenas, lo que indica que la satisfaccion es consistente y no un caso aislado.
+                    </p>
+                </div>
+
+                <div class="separator"></div>
+
+                <div class="pregunta">
+                    <h3>Confianza: Marca desconocida</h3>
+                    <p>
+                        Al usar <strong>LabelEncoder.transform()</strong> con una marca que no existia en el entrenamiento, 
+                        se lanza un <strong>ValueError</strong> porque el encoder solo conoce las marcas con las que fue entrenado.
+                    </p>
+                    <p>
+                        La solucion implementada es un <strong>try/except</strong> que asigna un valor por defecto (codigo = -1) 
+                        cuando la marca es desconocida. El modelo puede seguir prediciendo usando las demas variables (precio, descuento, resenas). 
+                        Alternativas mas robustas incluyen:
+                    </p>
+                    <p>
+                        <strong>1.</strong> Agregar una categoria "Desconocida" al LabelEncoder antes del entrenamiento.<br>
+                        <strong>2.</strong> Usar <strong>OrdinalEncoder</strong> con el parametro handle_unknown='use_encoded_value'.<br>
+                        <strong>3.</strong> Reentrenar periodicamente el modelo incluyendo nuevas marcas.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- MODELO 3 -->
+        <div class="modelo m3">
+            <div class="modelo-header">
+                <div class="numero">3</div>
+                <div>
+                    <h2>El Clasificador de Categorias</h2>
+                    <span class="subtitulo">Como la IA separa el mundo fisico por atributos</span>
+                </div>
+            </div>
+            <div class="modelo-body">
+
+                <div class="pregunta">
+                    <h3>Logica Fisica: Rango de peso para Electronica</h3>
+                    <p>
+                        El arbol utiliza nodos con umbrales de <strong>peso_kg</strong> para separar Electronica de otras categorias. 
+                        Tipicamente, los productos de Electronica caen en el rango de <strong>0.01 kg a ~1.5 kg</strong> 
+                        (desde auriculares y accesorios pequenos hasta dispositivos medianos). 
+                        Productos mas pesados tienden a ser clasificados en categorias como Tools & Home Improvement, 
+                        Sports & Outdoors o Patio, Lawn & Garden. 
+                        El arbol aprende que la electronica de consumo es generalmente liviana 
+                        comparada con herramientas, muebles o equipos deportivos.
+                    </p>
+                </div>
+
+                <div class="separator"></div>
+
+                <div class="pregunta">
+                    <h3>Confusion: Menor confianza</h3>
+                    <p>
+                        Este modelo tiene un nivel de confianza mas bajo porque es un problema <strong>multiclase</strong> 
+                        (6 categorias) en lugar de binario (Si/No). 
+                        En los modelos 1 y 2 el arbol solo necesita separar 2 clases, 
+                        lo que estadisticamente es mas facil: con una sola division ya puede lograr buena separacion. 
+                        Con 6 categorias, la probabilidad base de acertar al azar es ~16.7% (vs 50% en binario), 
+                        y el arbol necesita mas nodos y mas variables discriminantes para separar correctamente cada clase. 
+                        Ademas, varias categorias comparten rangos similares de peso y precio, 
+                        lo que genera <strong>solapamiento</strong> y confusiones en la clasificacion.
+                    </p>
+                    <div class="highlight highlight-green">
+                        La matriz de confusion muestra exactamente donde ocurren las confusiones: 
+                        categorias con peso y precio similares se confunden entre si con frecuencia.
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <div class="pregunta">
+                    <h3>Desafio del Peso: peso = 0.0 kg</h3>
+                    <p>
+                        Al ingresar peso = 0.0 kg, el modelo lo envia a la categoria de productos mas livianos del dataset, 
+                        que tipicamente corresponde a <strong>Electronics</strong> o <strong>Cell Phones & Accessories</strong>. 
+                        Tiene sentido parcial: los productos digitales o accesorios ultra-livianos 
+                        (como fundas de celular, protectores de pantalla, ear tips) 
+                        pesan fracciones de onza y se acercan a 0 en el dataset.
+                    </p>
+                    <p>
+                        Sin embargo, un peso de exactamente 0.0 es un <strong>dato anomalo</strong> en la realidad: 
+                        ningun producto fisico pesa literalmente cero. 
+                        El modelo no sabe distinguir entre "peso no registrado" y "peso real de cero". 
+                        En produccion, se deberia tratar peso = 0.0 como un <strong>dato faltante</strong> 
+                        y manejarlo con imputacion o marcarlo como invalido antes de pasarlo al modelo.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            Analisis generado a partir del dataset amazonproducts.csv &mdash; Arboles de Decision &mdash; scikit-learn
+        </footer>
+
+    </div>
+</body>
+</html>
