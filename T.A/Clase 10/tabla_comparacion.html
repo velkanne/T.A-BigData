@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Comparacion - Arboles de Decision</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 36px;
+            line-height: 1.5;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        thead th {
+            padding: 18px 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        thead th:first-child {
+            background: #1a1a2e;
+            text-align: left;
+            color: #ccc;
+        }
+
+        thead th:nth-child(2) {
+            background: linear-gradient(135deg, #7f1d1d, #991b1b);
+            color: #fca5a5;
+        }
+
+        thead th:nth-child(3) {
+            background: linear-gradient(135deg, #064e3b, #065f46);
+            color: #6ee7b7;
+        }
+
+        thead th .tag {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        tbody tr {
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        tbody td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #1e1e3a;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            vertical-align: top;
+        }
+
+        tbody td:first-child {
+            background: #12122a;
+            font-weight: 600;
+            color: #a5b4fc;
+            width: 22%;
+        }
+
+        tbody td:nth-child(2) {
+            background: #14111f;
+            color: #f0abab;
+            width: 39%;
+        }
+
+        tbody td:nth-child(3) {
+            background: #0f1a1a;
+            color: #a7f3d0;
+            width: 39%;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .icon {
+            margin-right: 6px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            color: #555;
+            font-size: 0.78rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tabla de Comparacion</h1>
+        <p class="subtitle">Comparacion entre el Arbol "Memorion" (Overfitting) y el Arbol "Inteligente" (Optimizado) aplicados al dataset Consumer Shopping Trends 2026.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Caracteristica</th>
+                    <th>Arbol "Memorion"<span class="tag">(Overfitting)</span></th>
+                    <th>Arbol "Inteligente"<span class="tag">(Optimizado)</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Configuracion</td>
+                    <td>Sin restricciones. No se aplica max_depth, min_samples_split ni min_samples_leaf. El arbol crece sin limites hasta clasificar cada muestra.</td>
+                    <td>Poda aplicada: max_depth=5, min_samples_split=50, min_samples_leaf=20. Se restringe el crecimiento para evitar memorizar ruido.</td>
+                </tr>
+                <tr>
+                    <td>Comportamiento</td>
+                    <td>Memoriza cada ejemplo individual del entrenamiento, incluyendo ruido y excepciones. Crea reglas ultra-especificas que no generalizan.</td>
+                    <td>Aprende patrones generales del dataset. Ignora excepciones y ruido, capturando solo las tendencias reales de compra.</td>
+                </tr>
+                <tr>
+                    <td>Rendimiento en Entrenamiento</td>
+                    <td>100% de exactitud. Clasifica perfectamente todos los datos que ya conoce, como un estudiante que memoriza las respuestas del examen.</td>
+                    <td>Exactitud menor al 100% en entrenamiento. No intenta acertar todo, acepta error minimo a cambio de robustez.</td>
+                </tr>
+                <tr>
+                    <td>Rendimiento con Datos Nuevos</td>
+                    <td>Caida significativa de exactitud en datos de prueba. La brecha entre train y test evidencia que no aprendio, solo memorizo.</td>
+                    <td>Exactitud similar entre entrenamiento y prueba. La diferencia minima confirma que el modelo generaliza bien a clientes nuevos.</td>
+                </tr>
+                <tr>
+                    <td>Metafora en el aula</td>
+                    <td>El estudiante que memoriza el libro completo palabra por palabra, pero al cambiarle el orden de las preguntas en el examen, no sabe responder.</td>
+                    <td>El estudiante que entiende los conceptos clave y puede resolver problemas nuevos que nunca vio, porque comprende la logica detras.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="footer">Consumer Shopping Trends 2026 — Clase 10</p>
+    </div>
+</body>
+</html>

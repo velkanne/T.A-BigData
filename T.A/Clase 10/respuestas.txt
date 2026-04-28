@@ -1,0 +1,31 @@
+Preguntas de Analisis - Consumer Shopping Trends 2026
+
+
+1. ¿Por que need_touch_feel_score es tan importante para el arbol?
+
+Porque es la variable que mejor separa a los compradores de tienda fisica de los compradores online. 
+Una persona con puntaje alto necesita tocar el producto antes de comprarlo, lo que la inclina casi automaticamente hacia la tienda fisica (Store). 
+Una persona con puntaje bajo no tiene esa barrera y se inclina hacia Online. El arbol la selecciona como nodo raiz o nodo temprano porque maximiza la reduccion de impureza Gini al dividir las clases. 
+Es el "gran divisor" psicologico que ninguna otra variable digital compensa.
+
+
+2. Si el modelo "Memorion" tiene 100% de exactitud en entrenamiento, ¿por que no deberiamos estar felices?
+
+Porque significa overfitting. El modelo memorizo cada ejemplo del conjunto de entrenamiento, incluyendo ruido y excepciones. 
+Al evaluarlo con datos nuevos (test), su rendimiento cae significativamente. 
+La diferencia entre exactitud de entrenamiento (100%) y exactitud de prueba evidencia que no aprendio patrones generalizables, sino que funciona como una tabla de consulta. 
+Un modelo util debe generalizar a datos que nunca ha visto, no recitar los que ya conoce.
+
+
+3. Si el sistema predice Online con 51% de confianza, ¿que accion deberia tomar el vendedor humano?
+
+No confiar ciegamente en la prediccion. Un 51% es practicamente un lanzamiento de moneda, el modelo no tiene certeza real. 
+El vendedor deberia ofrecer una experiencia hibrida: mostrar el producto fisicamente y al mismo tiempo mencionar ventajas de la compra online como envio a domicilio o descuentos exclusivos. 
+Tratar al cliente como Hybrid y dejar que la interaccion humana determine la preferencia real. Nunca se deben automatizar decisiones comerciales sobre predicciones con confianza marginal.
+
+
+4. ¿Que sucede con el arbol cuando cambiamos max_depth de 10 a 3?
+
+Con max_depth=10 el arbol genera cientos de hojas y se vuelve una estructura ilegible, imposible de explicar a un cliente o gerente. 
+Con max_depth=3 se generan maximo 8 hojas, el arbol cabe en una diapositiva y se puede explicar verbalmente: "si necesita tocar el producto Y no confia en pagos online, entonces tienda fisica". 
+Se pierde algo de precision numerica pero se gana interpretabilidad total. Para comunicar resultados a personas no tecnicas, max_depth=3 es superior.
