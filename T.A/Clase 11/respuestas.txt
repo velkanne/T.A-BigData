@@ -1,0 +1,17 @@
+1. Analisis de Datos: BMI 0 y Presion 0
+
+No es posible en la vida real. Un BMI de 0 significaria que la persona no tiene masa corporal, y una presion arterial de 0 significaria que esta muerta. Estos valores son datos faltantes codificados como cero en el dataset original. Si no se corrigen, afectan directamente a KNN porque el algoritmo calcula distancias entre puntos. Un paciente con BMI 0 quedaria artificialmente lejos de cualquier paciente real en el espacio de caracteristicas, distorsionando la vecindad. Los vecinos mas cercanos serian otros pacientes con datos faltantes, no pacientes clinicamente similares. Por eso se reemplazan esos ceros por la mediana de cada columna antes de entrenar.
+
+2. Sensibilidad del K: 3 vecinos vs 21 vecinos
+
+Para un paciente en el limite, K=21 es mas seguro. Con K=3, un solo vecino ruidoso o atipico puede cambiar la prediccion completa (pasa de 2-1 a 1-2). La decision es fragil y volatil. Con K=21, la prediccion se basa en el consenso de 21 pacientes similares, lo que suaviza el ruido y reduce la varianza. El costo es que se pierde sensibilidad a patrones locales muy especificos, pero en un contexto medico donde un falso negativo puede ser peligroso, la estabilidad de K alto es preferible. El punto optimo se encuentra evaluando el error en un rango de K, como se hace en la grafica del notebook.
+
+3. Etica e IA: 75% de precision en diagnostico medico
+
+No se lo daria a un medico como herramienta de decision final. Un 75% de precision significa que 1 de cada 4 predicciones es incorrecta, lo cual es inaceptable para diagnostico clinico. Se podria usar como herramienta de apoyo o screening inicial, nunca como reemplazo del criterio medico.
+
+El error mas grave es el falso negativo: decirle a alguien enfermo que esta sano. Un falso positivo (decirle a alguien sano que esta enfermo) genera ansiedad y examenes adicionales innecesarios, pero el paciente eventualmente recibe el diagnostico correcto. Un falso negativo deja al paciente sin tratamiento, la enfermedad progresa sin intervencion, y las complicaciones de la diabetes no tratada (ceguera, amputaciones, fallo renal) son irreversibles.
+
+4. Escalamiento: sin StandardScaler
+
+Sin escalar, la distancia euclidiana queda dominada por las variables con mayor magnitud numerica. La Glucosa (rango ~0-200) tendria un peso desproporcionado frente a Pregnancies (rango ~0-17) o Pedigree (rango ~0-2.4). En la practica, KNN ignoraria casi por completo las variables de rango pequeno porque su contribucion a la distancia total seria insignificante. El modelo se convertiria en un clasificador basado casi exclusivamente en Glucosa e Insulina. StandardScaler transforma todas las variables a media 0 y desviacion estandar 1, igualando su contribucion a la distancia y permitiendo que KNN considere todas las caracteristicas de forma equitativa.
